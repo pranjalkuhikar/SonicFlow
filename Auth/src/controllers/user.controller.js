@@ -21,9 +21,12 @@ export const register = async (req, res) => {
     const user = new User({ username, email, password: hashPassword });
     await user.save();
 
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
     res.status(201).json({
       message: "User created successfully",
-      user,
+      user: userResponse,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -56,9 +59,12 @@ export const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
+    const userResponse = userExits.toObject();
+    delete userResponse.password;
+
     res.status(200).json({
       message: "Login successfully",
-      userExits,
+      userExits: userResponse,
       token,
     });
   } catch (err) {
@@ -66,9 +72,9 @@ export const login = async (req, res) => {
   }
 };
 
-export const me = (req, res) => {
+export const profile = (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user;
 
     res.status(200).json({
       message: "Welcome to your profile",

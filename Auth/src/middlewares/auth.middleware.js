@@ -1,6 +1,7 @@
 import config from "../configs/config.js";
+import jwt from "jsonwebtoken";
 
-export const authenticate = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -8,7 +9,7 @@ export const authenticate = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, config.JWT_SECRET);
-    req.user = decoded;
+    req.user = await User.findById(decoded.userId).select("-password");
 
     next();
   } catch (err) {
