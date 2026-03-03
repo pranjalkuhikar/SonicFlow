@@ -47,25 +47,27 @@ export const googleAuthCallback = async (req, res) => {
     });
 
     if (isUserAlreadyExists) {
-      const token = jwt.sign({ userId: user._id }, config.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign(
+        { userId: isUserAlreadyExists._id },
+        config.JWT_SECRET,
+        {
+          expiresIn: "1h",
+        },
+      );
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
         maxAge: 24 * 60 * 60 * 1000,
       });
-      return res.redirect(config.CLIENT_URL);
+      return res.redirect(config.Frontend_URL);
     }
 
     const newUser = await User.create({
       googleId: user.id,
       email: user.emails[0].value,
-      fullname: {
-        firstName: user.name.givenName,
-        lastName: user.name.familyName,
-      },
+      firstName: user.name.givenName,
+      lastName: user.name.familyName,
     });
 
     const token = jwt.sign({ userId: newUser._id }, config.JWT_SECRET, {
@@ -79,7 +81,7 @@ export const googleAuthCallback = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return res.redirect(config.CLIENT_URL);
+    return res.redirect(config.Frontend_URL);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
