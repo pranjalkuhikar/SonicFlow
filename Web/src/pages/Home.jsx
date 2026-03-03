@@ -14,6 +14,24 @@ const gradients = [
 const Home = () => {
   const { data: user } = useProfileQuery();
   const [logout] = useLogoutMutation();
+  const colors = [
+    "bg-pink-500",
+    "bg-purple-600",
+    "bg-indigo-500",
+    "bg-blue-500",
+    "bg-sky-500",
+    "bg-cyan-500",
+    "bg-teal-500",
+    "bg-emerald-500",
+    "bg-lime-500",
+    "bg-amber-500",
+    "bg-orange-500",
+    "bg-red-500",
+    "bg-fuchsia-500",
+  ];
+  const [avatarColor] = useState(
+    () => colors[Math.floor(Math.random() * colors.length)],
+  );
 
   const handleLogout = async () => {
     try {
@@ -46,8 +64,10 @@ const Home = () => {
                   className="flex items-center gap-3 rounded-full border border-white/10 bg-white/10 px-3 py-2"
                   onClick={() => setProfileOpen((o) => !o)}
                 >
-                  <div className="size-8 rounded-full bg-linear-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-semibold">
-                    S
+                  <div
+                    className={`size-8 rounded-full ${avatarColor} flex items-center justify-center font-semibold`}
+                  >
+                    {user.user.firstName[0]}
                   </div>
                   <div className="hidden md:block text-left">
                     <div className="text-sm">
@@ -63,8 +83,10 @@ const Home = () => {
                 >
                   <div className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className="size-10 rounded-full bg-linear-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-semibold">
-                        S
+                      <div
+                        className={`size-10 rounded-full ${avatarColor} flex items-center justify-center font-semibold`}
+                      >
+                        {user.user.firstName[0]}
                       </div>
                       <div className="flex-1">
                         <div className="text-sm">
