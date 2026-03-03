@@ -52,9 +52,11 @@ const Home = () => {
                     S
                   </div>
                   <div className="hidden md:block text-left">
-                    <div className="text-sm">Sonic User</div>
+                    <div className="text-sm">
+                      {user.user.firstName} {user.user.lastName}
+                    </div>
                     <div className="text-xs text-white/60">
-                      sonic@example.com
+                      {user.user.email}
                     </div>
                   </div>
                 </button>
@@ -67,9 +69,11 @@ const Home = () => {
                         S
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm">Sonic User</div>
+                        <div className="text-sm">
+                          {user.user.firstName} {user.user.lastName}
+                        </div>
                         <div className="text-xs text-white/60">
-                          sonic@example.com
+                          {user.user.email}
                         </div>
                       </div>
                     </div>
