@@ -158,7 +158,7 @@ const Register = () => {
               </div>
 
               <button
-                type="button"
+                type="submit"
                 className="mt-2 w-full rounded-lg bg-white text-black font-semibold py-2 hover:bg-neutral-200"
               >
                 Sign Up

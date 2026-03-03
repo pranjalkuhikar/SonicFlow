@@ -98,14 +98,14 @@ const Login = () => {
               </div>
 
               <button
-                type="button"
+                type="submit"
                 className="mt-2 w-full rounded-lg bg-white text-black font-semibold py-2 hover:bg-neutral-200"
               >
                 Sign In
               </button>
 
               <p className="mt-4 text-sm text-neutral-400">
-                Don&apos;t have an account?{" "}
+                Don't have an account?{" "}
                 <Link to="/register" className="text-white font-medium">
                   Sign up
                 </Link>
