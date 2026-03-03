@@ -116,13 +116,17 @@ const Register = () => {
               </p>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-6 grid grid-cols-1 gap-3">
               <button
                 type="button"
                 className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm hover:bg-neutral-800"
                 onClick={handleGoogleLogin}
               >
-                <span className="inline-block size-4 rounded bg-white" />
+                <img
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  alt="Google"
+                  className="size-4"
+                />
                 <span>Google</span>
               </button>
             </div>
