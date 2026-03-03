@@ -38,6 +38,53 @@ export const register = async (req, res) => {
   }
 };
 
+export const googleAuthCallback = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const isUserAlreadyExists = await User.findOne({
+      $or: [{ email: user.emails[0].value }, { googleId: user.id }],
+    });
+
+    if (isUserAlreadyExists) {
+      const token = jwt.sign({ userId: user._id }, config.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      return res.redirect(config.CLIENT_URL);
+    }
+
+    const newUser = await User.create({
+      googleId: user.id,
+      email: user.emails[0].value,
+      fullname: {
+        firstName: user.name.givenName,
+        lastName: user.name.familyName,
+      },
+    });
+
+    const token = jwt.sign({ userId: newUser._id }, config.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    return res.redirect(config.CLIENT_URL);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
