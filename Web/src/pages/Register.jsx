@@ -1,7 +1,151 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-  return <div>Register</div>;
+  return (
+    <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden shadow-2xl">
+        <div
+          className="relative p-10 lg:p-12"
+          style={{
+            background: `radial-gradient(ellipse 80% 50% at 50% 0%, #A855F7 0%, #7C3AED 30%, #3B0764 60%, #0B0B0B 100%)`,
+          }}
+        >
+          <div className="absolute inset-0 opacity-30 mix-blend-overlay" />
+          <div className="relative h-full flex flex-col justify-end gap-8">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-medium opacity-90">
+                <span className="inline-block size-2 rounded-full bg-white" />
+                <span>SonicFlow</span>
+              </div>
+              <h1 className="mt-4 text-3xl lg:text-4xl font-semibold">
+                Get Started with SonicFlow
+              </h1>
+              <p className="mt-2 text-sm opacity-90">
+                Complete these easy steps to register your account.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/90 text-black text-sm font-semibold">
+                  1
+                </span>
+                <div className="flex-1 rounded-lg bg-black/20 backdrop-blur px-4 py-3">
+                  <span className="text-sm">Sign up your account</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 opacity-80">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/40 text-black/70 text-sm font-semibold">
+                  2
+                </span>
+                <div className="flex-1 rounded-lg bg-black/10 backdrop-blur px-4 py-3">
+                  <span className="text-sm">Create your first playlist</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 opacity-50">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 text-black/50 text-sm font-semibold">
+                  3
+                </span>
+                <div className="flex-1 rounded-lg bg-black/10 backdrop-blur px-4 py-3">
+                  <span className="text-sm">Set up your profile</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-neutral-950 p-8 lg:p-12">
+          <div className="mx-auto w-full max-w-md">
+            <div>
+              <h2 className="text-2xl font-semibold">Sign Up Account</h2>
+              <p className="mt-2 text-sm text-neutral-400">
+                Enter your personal data to create your account.
+              </p>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm hover:bg-neutral-800"
+              >
+                <span className="inline-block size-4 rounded bg-white" />
+                <span>Google</span>
+              </button>
+              <button
+                type="button"
+                className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm hover:bg-neutral-800"
+              >
+                <span className="inline-block size-4 rounded bg-white" />
+                <span>Github</span>
+              </button>
+            </div>
+
+            <div className="my-6 flex items-center gap-3 text-neutral-500">
+              <div className="h-px flex-1 bg-neutral-800" />
+              <span className="text-xs">Or</span>
+              <div className="h-px flex-1 bg-neutral-800" />
+            </div>
+
+            <form className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm mb-2">First Name</label>
+                  <input
+                    type="text"
+                    placeholder="eg. John"
+                    className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2">Last Name</label>
+                  <input
+                    type="text"
+                    placeholder="eg. Francisco"
+                    className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm mb-2">Email</label>
+                <input
+                  type="email"
+                  placeholder="eg. johnfrans@gmail.com"
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm mb-2">Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
+                />
+                <p className="mt-2 text-xs text-neutral-500">
+                  Must be at least 8 characters.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="mt-2 w-full rounded-lg bg-white text-black font-semibold py-2 hover:bg-neutral-200"
+              >
+                Sign Up
+              </button>
+
+              <p className="mt-4 text-sm text-neutral-400">
+                Already have an account?{" "}
+                <Link to="/login" className="text-white font-medium">
+                  Log in
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Register;
