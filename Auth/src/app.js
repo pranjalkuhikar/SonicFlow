@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import indexRoute from "./routes/index.route.js";
+import config from "./configs/config.js";
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: config.Frontend_URL,
     credentials: true,
   }),
 );
