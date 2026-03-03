@@ -65,3 +65,16 @@ export const login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const me = (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    res.status(200).json({
+      message: "Welcome to your profile",
+      userId,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
