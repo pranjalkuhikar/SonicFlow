@@ -15,6 +15,11 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+    googleLoginUrl: build.mutation({
+      queryFn: async () => {
+        return { data: "http://localhost:3001/api/auth/google" };
+      },
+    }),
     login: build.mutation({
       query: (credentials) => ({
         url: "login",
@@ -42,4 +47,5 @@ export const {
   useLoginMutation,
   useProfileQuery,
   useLogoutMutation,
+  useGoogleLoginUrlMutation,
 } = authApi;

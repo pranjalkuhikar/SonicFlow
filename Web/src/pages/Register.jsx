@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "../services/authApi";
+import {
+  useRegisterMutation,
+  useGoogleLoginUrlMutation,
+} from "../services/authApi";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -12,6 +15,7 @@ const Register = () => {
 
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
+  const [googleLoginUrl] = useGoogleLoginUrlMutation();
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +48,11 @@ const Register = () => {
       }
       setErrors(apiErrors);
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    const url = await googleLoginUrl().unwrap();
+    window.location.href = url;
   };
 
   return (
@@ -111,16 +120,10 @@ const Register = () => {
               <button
                 type="button"
                 className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm hover:bg-neutral-800"
+                onClick={handleGoogleLogin}
               >
                 <span className="inline-block size-4 rounded bg-white" />
                 <span>Google</span>
-              </button>
-              <button
-                type="button"
-                className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm hover:bg-neutral-800"
-              >
-                <span className="inline-block size-4 rounded bg-white" />
-                <span>Github</span>
               </button>
             </div>
 
