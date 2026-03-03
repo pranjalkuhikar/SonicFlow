@@ -15,9 +15,15 @@ const userSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
+    googleId: {
+      type: String,
+      unique: true,
+    },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId;
+      },
     },
   },
   {
