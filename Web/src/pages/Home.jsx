@@ -42,21 +42,6 @@ const Home = () => {
           </div>
           <div className="flex items-center gap-3">
             {user ? (
-              <nav className="flex items-center gap-3">
-                <Link
-                  to="/login"
-                  className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-                >
-                  Register
-                </Link>
-              </nav>
-            ) : (
               <div className="relative">
                 <button
                   type="button"
@@ -101,6 +86,21 @@ const Home = () => {
                   </div>
                 </div>
               </div>
+            ) : (
+              <nav className="flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                >
+                  Register
+                </Link>
+              </nav>
             )}
           </div>
         </header>
