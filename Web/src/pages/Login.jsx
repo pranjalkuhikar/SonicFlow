@@ -1,15 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../services/authApi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handlerSubmit = (e) => {
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+
+  const handlerSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-    setEmail("");
-    setPassword("");
+    try {
+      const res = await login({
+        email,
+        password,
+      }).unwrap();
+      console.log(res);
+      setEmail("");
+      setPassword("");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

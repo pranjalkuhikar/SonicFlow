@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../services/authApi";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -7,13 +9,27 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handlerSubmit = (e) => {
+  const navigate = useNavigate();
+  const [register] = useRegisterMutation();
+
+  const handlerSubmit = async (e) => {
     e.preventDefault();
-    console.log(firstName, lastName, email, password);
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
+    try {
+      const res = await register({
+        firstName,
+        lastName,
+        email,
+        password,
+      }).unwrap();
+      console.log(res);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
