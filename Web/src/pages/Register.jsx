@@ -8,6 +8,7 @@ const Register = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
@@ -26,9 +27,23 @@ const Register = () => {
       setLastName("");
       setEmail("");
       setPassword("");
+      setErrors({});
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      const apiErrors = {};
+      const payload = err?.data;
+      if (payload?.errors && Array.isArray(payload.errors)) {
+        payload.errors.forEach((e) => {
+          apiErrors[e.field] = e.message;
+        });
+      } else if (payload?.message) {
+        apiErrors.form = payload.message;
+      } else if (err?.error) {
+        apiErrors.form = err.error;
+      } else {
+        apiErrors.form = "Something went wrong";
+      }
+      setErrors(apiErrors);
     }
   };
 
@@ -129,6 +144,11 @@ const Register = () => {
                     onChange={(e) => setFirstName(e.target.value)}
                     className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                   />
+                  {errors.firstName && (
+                    <p className="mt-1 text-xs text-red-400">
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm mb-2">Last Name</label>
@@ -141,6 +161,11 @@ const Register = () => {
                     onChange={(e) => setLastName(e.target.value)}
                     className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                   />
+                  {errors.lastName && (
+                    <p className="mt-1 text-xs text-red-400">
+                      {errors.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -155,6 +180,9 @@ const Register = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -171,6 +199,9 @@ const Register = () => {
                 <p className="mt-2 text-xs text-neutral-500">
                   Must be at least 8 characters.
                 </p>
+                {errors.password && (
+                  <p className="mt-1 text-xs text-red-400">{errors.password}</p>
+                )}
               </div>
 
               <button
@@ -179,6 +210,9 @@ const Register = () => {
               >
                 Sign Up
               </button>
+              {errors.form && (
+                <p className="mt-2 text-xs text-red-400">{errors.form}</p>
+              )}
 
               <p className="mt-4 text-sm text-neutral-400">
                 Already have an account?{" "}

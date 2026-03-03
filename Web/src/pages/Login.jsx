@@ -6,6 +6,7 @@ import { useLoginMutation } from "../services/authApi";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
   const [login] = useLoginMutation();
@@ -20,9 +21,23 @@ const Login = () => {
       console.log(res);
       setEmail("");
       setPassword("");
+      setErrors({});
       navigate("/");
     } catch (err) {
-      console.log(err);
+      const apiErrors = {};
+      const payload = err?.data;
+      if (payload?.errors && Array.isArray(payload.errors)) {
+        payload.errors.forEach((e) => {
+          apiErrors[e.field] = e.message;
+        });
+      } else if (payload?.message) {
+        apiErrors.form = payload.message;
+      } else if (err?.error) {
+        apiErrors.form = err.error;
+      } else {
+        apiErrors.form = "Something went wrong";
+      }
+      setErrors(apiErrors);
     }
   };
 
@@ -96,6 +111,9 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -109,6 +127,9 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                 />
+                {errors.password && (
+                  <p className="mt-1 text-xs text-red-400">{errors.password}</p>
+                )}
               </div>
 
               <button
@@ -117,6 +138,9 @@ const Login = () => {
               >
                 Sign In
               </button>
+              {errors.form && (
+                <p className="mt-2 text-xs text-red-400">{errors.form}</p>
+              )}
 
               <p className="mt-4 text-sm text-neutral-400">
                 Don't have an account?{" "}
