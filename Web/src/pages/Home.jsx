@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useProfileQuery, useLogoutMutation } from "../services/authApi";
 
 const gradients = [
   "linear-gradient(135deg, #F59E0B, #EF4444 60%, #111111)",
@@ -10,6 +12,21 @@ const gradients = [
 ];
 
 const Home = () => {
+  const { data: user } = useProfileQuery();
+  const [logout] = useLogoutMutation();
+
+  console.log(user);
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      window.location.href = "/";
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const [profileOpen, setProfileOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <div
@@ -23,20 +40,69 @@ const Home = () => {
             <span className="inline-block size-2 rounded-full bg-white" />
             <span className="text-sm font-medium">SonicFlow</span>
           </div>
-          <nav className="flex items-center gap-3">
-            <Link
-              to="/login"
-              className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-            >
-              Register
-            </Link>
-          </nav>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <nav className="flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                >
+                  Register
+                </Link>
+              </nav>
+            ) : (
+              <div className="relative">
+                <button
+                  type="button"
+                  className="flex items-center gap-3 rounded-full border border-white/10 bg-white/10 px-3 py-2"
+                  onClick={() => setProfileOpen((o) => !o)}
+                >
+                  <div className="size-8 rounded-full bg-linear-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-semibold">
+                    S
+                  </div>
+                  <div className="hidden md:block text-left">
+                    <div className="text-sm">Sonic User</div>
+                    <div className="text-xs text-white/60">
+                      sonic@example.com
+                    </div>
+                  </div>
+                </button>
+                <div
+                  className={`absolute right-0 top-full mt-2 w-64 rounded-xl border border-white/10 bg-neutral-950/95 backdrop-blur shadow-2xl ${profileOpen ? "block" : "hidden"}`}
+                >
+                  <div className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 rounded-full bg-linear-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-semibold">
+                        S
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm">Sonic User</div>
+                        <div className="text-xs text-white/60">
+                          sonic@example.com
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-3 h-px bg-white/10" />
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </header>
 
         <section className="px-6 md:px-10 pt-6 md:pt-12">
