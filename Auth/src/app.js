@@ -5,8 +5,8 @@ import indexRoute from "./routes/index.route.js";
 
 const app = express();
 
-app.use(express.urlencoded({ extends: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 app.use(cors("*"));
