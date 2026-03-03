@@ -1,7 +1,21 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Register = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handlerSubmit = (e) => {
+    e.preventDefault();
+    console.log(firstName, lastName, email, password);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden shadow-2xl">
@@ -86,13 +100,17 @@ const Register = () => {
               <div className="h-px flex-1 bg-neutral-800" />
             </div>
 
-            <form className="space-y-4">
+            <form onSubmit={handlerSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm mb-2">First Name</label>
                   <input
                     type="text"
                     placeholder="eg. John"
+                    name="firstName"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                   />
                 </div>
@@ -101,6 +119,10 @@ const Register = () => {
                   <input
                     type="text"
                     placeholder="eg. Francisco"
+                    name="lastName"
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                   />
                 </div>
@@ -111,6 +133,10 @@ const Register = () => {
                 <input
                   type="email"
                   placeholder="eg. johnfrans@gmail.com"
+                  name="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                 />
               </div>
@@ -120,6 +146,10 @@ const Register = () => {
                 <input
                   type="password"
                   placeholder="Enter your password"
+                  name="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
                 />
                 <p className="mt-2 text-xs text-neutral-500">
