@@ -1,5 +1,6 @@
 import config from "../configs/config.js";
 import jwt from "jsonwebtoken";
+import User from "../models/register.model.js";
 
 export const authenticate = async (req, res, next) => {
   try {
@@ -14,7 +15,7 @@ export const authenticate = async (req, res, next) => {
     next();
   } catch (err) {
     res
-      .status(500)
+      .status(401)
       .json({ message: "Invalid or expired token", error: err.message });
   }
 };

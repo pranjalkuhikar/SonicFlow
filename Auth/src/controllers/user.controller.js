@@ -74,12 +74,21 @@ export const login = async (req, res) => {
 
 export const profile = (req, res) => {
   try {
-    const userId = req.user;
+    const user = req.user;
 
     res.status(200).json({
       message: "Welcome to your profile",
-      userId,
+      user,
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logout successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
