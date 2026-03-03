@@ -15,8 +15,6 @@ const Home = () => {
   const { data: user } = useProfileQuery();
   const [logout] = useLogoutMutation();
 
-  console.log(user);
-
   const handleLogout = async () => {
     try {
       await logout().unwrap();

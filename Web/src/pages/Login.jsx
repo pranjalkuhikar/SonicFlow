@@ -14,11 +14,10 @@ const Login = () => {
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login({
+      await login({
         email,
         password,
       }).unwrap();
-      console.log(res);
       setEmail("");
       setPassword("");
       setErrors({});

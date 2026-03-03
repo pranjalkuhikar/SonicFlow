@@ -16,13 +16,12 @@ const Register = () => {
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await register({
+      await register({
         firstName,
         lastName,
         email,
         password,
       }).unwrap();
-      console.log(res);
       setFirstName("");
       setLastName("");
       setEmail("");
