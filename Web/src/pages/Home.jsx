@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useProfileQuery, useLogoutMutation } from "../services/authApi";
+import { useDispatch } from "react-redux";
+import {
+  authApi,
+  useProfileQuery,
+  useLogoutMutation,
+} from "../services/authApi";
 import AvatarMenu from "../components/AvatarMenu";
 import Navbar from "../components/Navbar";
 
@@ -15,6 +20,7 @@ const gradients = [
 
 const Home = () => {
   const { data: user } = useProfileQuery();
+  const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const colors = [
@@ -38,6 +44,7 @@ const Home = () => {
   const handleLogout = async () => {
     try {
       await logout().unwrap();
+      dispatch(authApi.util.resetApiState());
       navigate("/");
     } catch (err) {
       console.log(err);

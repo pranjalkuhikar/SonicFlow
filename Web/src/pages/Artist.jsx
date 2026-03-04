@@ -1,16 +1,23 @@
 import { useEffect } from "react";
-import { useProfileQuery, useLogoutMutation } from "../services/authApi";
+import { useDispatch } from "react-redux";
+import {
+  authApi,
+  useProfileQuery,
+  useLogoutMutation,
+} from "../services/authApi";
 import AvatarMenu from "../components/AvatarMenu";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
 const Artist = () => {
   const { data: user } = useProfileQuery();
+  const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await logout().unwrap();
+      dispatch(authApi.util.resetApiState());
       navigate("/");
     } catch (err) {
       console.log(err);
