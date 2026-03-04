@@ -20,3 +20,11 @@ export const uploadToImageKit = async (file, folderName) => {
     throw new Error("ImageKit upload failed");
   }
 };
+
+export const deleteFromImageKit = async (fileId) => {
+  try {
+    await imageKit.deleteFile(fileId);
+  } catch (error) {
+    throw new Error("ImageKit delete failed");
+  }
+};

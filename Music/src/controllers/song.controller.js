@@ -1,5 +1,5 @@
 import Song from "../models/song.model.js";
-import { uploadToImageKit } from "../utils/imageKit.js";
+import { uploadToImageKit, deleteFromImageKit } from "../utils/imageKit.js";
 
 export const addSong = async (req, res) => {
   try {
@@ -10,6 +10,11 @@ export const addSong = async (req, res) => {
 
     if (!req.files?.coverImage || !req.files?.audioFile) {
       return res.status(400).json({ message: "Files are required" });
+    }
+
+    const existingSong = await Song.findOne({ title });
+    if (existingSong.length > 0) {
+      return res.status(400).json({ message: "Song already exists" });
     }
 
     const coverImageUrl = await uploadToImageKit(
@@ -24,8 +29,14 @@ export const addSong = async (req, res) => {
     const songData = new Song({
       title,
       artist,
-      coverImage: coverImageUrl.url,
-      audioFile: audioFileUrl.url,
+      coverImage: {
+        fileId: coverImageUrl.fileId,
+        url: coverImageUrl.url,
+      },
+      audioFile: {
+        fileId: audioFileUrl.fileId,
+        url: audioFileUrl.url,
+      },
     });
     await songData.save();
 
@@ -47,6 +58,12 @@ export const getSong = async (req, res) => {
 export const deleteSong = async (req, res) => {
   try {
     const { id } = req.body;
+    const song = await Song.findById(id);
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+    await deleteFromImageKit(song.coverImage.fileId);
+    await deleteFromImageKit(song.audioFile.fileId);
     await Song.findByIdAndDelete(id);
     res.status(200).json({ message: "Song deleted successfully" });
   } catch (error) {
