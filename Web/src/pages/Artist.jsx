@@ -1,14 +1,16 @@
 import { useProfileQuery, useLogoutMutation } from "../services/authApi";
 import Logo from "../components/Logo";
 import AvatarMenu from "../components/AvatarMenu";
+import { useNavigate } from "react-router-dom";
 
 const Artist = () => {
   const { data: user } = useProfileQuery();
   const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -24,6 +26,13 @@ const Artist = () => {
               className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
             >
               Add Song
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+            >
+              Home
             </button>
             {user && <AvatarMenu user={user.user} onLogout={handleLogout} />}
           </div>
