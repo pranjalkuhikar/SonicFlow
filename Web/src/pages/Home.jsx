@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useProfileQuery, useLogoutMutation } from "../services/authApi";
 
 const gradients = [
@@ -14,6 +14,7 @@ const gradients = [
 const Home = () => {
   const { data: user } = useProfileQuery();
   const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
   const colors = [
     "bg-pink-500",
     "bg-purple-600",
@@ -32,6 +33,12 @@ const Home = () => {
   const [avatarColor] = useState(
     () => colors[Math.floor(Math.random() * colors.length)],
   );
+
+  useEffect(() => {
+    if (user?.user?.role === "artist") {
+      navigate("/artist");
+    }
+  }, [user, navigate]);
 
   const handleLogout = async () => {
     try {

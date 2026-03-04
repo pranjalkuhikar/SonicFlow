@@ -99,6 +99,7 @@ export const googleAuthCallback = async (req, res) => {
       email: newUser.email,
       firstName: newUser.firstName,
       lastName: newUser.lastName,
+      role: newUser.role,
     });
 
     res.cookie("token", token, {

@@ -18,14 +18,19 @@ const Login = () => {
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login({
+      const resp = await login({
         email,
         password,
       }).unwrap();
       setEmail("");
       setPassword("");
       setErrors({});
-      navigate("/");
+      const role = resp?.userExits?.role;
+      if (role === "artist") {
+        navigate("/artist");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       const apiErrors = {};
       const payload = err?.data;
