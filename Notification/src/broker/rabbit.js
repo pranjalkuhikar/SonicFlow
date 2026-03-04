@@ -21,3 +21,16 @@ export const publishToQueue = async (queueName, data) => {
 
   console.log("Message sent to queue ", queueName);
 };
+
+export const subscribeToQueue = async (queueName, callback) => {
+  if (!channel) {
+    return;
+  }
+  await channel.assertQueue(queueName, { durable: true });
+  await channel.consume(queueName, (msg) => {
+    if (msg !== null) {
+      callback(JSON.parse(msg.content.toString()));
+      channel.ack(msg);
+    }
+  });
+};
