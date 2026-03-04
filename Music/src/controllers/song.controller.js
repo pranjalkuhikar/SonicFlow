@@ -1,5 +1,5 @@
 import Song from "../models/song.model.js";
-import { uploadToImageKit } from "../utils/imageKit";
+import { uploadToImageKit } from "../utils/imageKit.js";
 
 export const addSong = async (req, res) => {
   try {
