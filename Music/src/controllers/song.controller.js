@@ -1,3 +1,3 @@
-export const register = (req, res) => {
+export const createSong = (req, res) => {
   res.send("Hello");
 };
