@@ -1,11 +1,9 @@
 import { subscribeToQueue } from "./rabbit.js";
-import { sendEmail } from "../utils/email.js";
+import sendEmail from "../utils/email.js";
 
 function startListening() {
-  subscribeToQueue("User Created", async (msg) => {
-    const { id, email, firstName, lastName } = JSON.parse(
-      msg.content.toString(),
-    );
+  subscribeToQueue("User Created", async (data) => {
+    const { id, email, firstName, lastName } = data;
 
     const userTemplate = `
         <!DOCTYPE html>
@@ -45,11 +43,7 @@ function startListening() {
         </html>
     `;
 
-    await sendEmail({
-      to: email,
-      subject: "Welcome to SonicFlow",
-      html: userTemplate,
-    });
+    await sendEmail(email, "Welcome to SonicFlow", undefined, userTemplate);
   });
 }
 

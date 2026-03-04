@@ -1,6 +1,7 @@
 import app from "./src/app.js";
 import { connectMQ } from "./src/broker/rabbit.js";
 import config from "./src/configs/config.js";
+import startListening from "./src/broker/listener.js";
 
 const PORT = config.PORT;
 
