@@ -1,15 +1,23 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import indexRoute from "./routes/index.route.js";
+import sendEmail from "./utils/email.js";
 
 const app = express();
 
-app.use(express.urlencoded({ extends: true }));
-app.use(express.json());
+// app.use(express.urlencoded({ extends: true }));
+// app.use(express.json());
 
-app.use(cookieParser());
-app.use(cors("*"));
-app.use("/api", indexRoute);
+// app.use(cookieParser());
+// app.use(cors("*"));
+
+// Example call to sendEmail for testing purposes. Replace the recipient address
+// and message contents with real values or use process.env variables as needed.
+sendEmail(
+  "pranjalkuhikar123@gmail.com", // to
+  "Test Email from Notification Service", // subject
+  "This is a plain text body for testing the email functionality.", // text
+  `<p>This is an <strong>HTML</strong> body for testing the email functionality.</p>`, // html
+);
 
 export default app;
