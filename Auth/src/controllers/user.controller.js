@@ -62,6 +62,14 @@ export const googleAuthCallback = async (req, res) => {
           expiresIn: "1h",
         },
       );
+
+      await publishToQueue("User Created", {
+        id: isUserAlreadyExists._id,
+        email: isUserAlreadyExists.email,
+        firstName: isUserAlreadyExists.firstName,
+        lastName: isUserAlreadyExists.lastName,
+      });
+
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: "lax",
@@ -80,6 +88,13 @@ export const googleAuthCallback = async (req, res) => {
 
     const token = jwt.sign({ userId: newUser._id }, config.JWT_SECRET, {
       expiresIn: "1h",
+    });
+
+    await publishToQueue("User Created", {
+      id: newUser._id,
+      email: newUser.email,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
     });
 
     res.cookie("token", token, {
