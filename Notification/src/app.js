@@ -11,8 +11,6 @@ const app = express();
 // app.use(cookieParser());
 // app.use(cors("*"));
 
-// Example call to sendEmail for testing purposes. Replace the recipient address
-// and message contents with real values or use process.env variables as needed.
 sendEmail(
   "pranjalkuhikar123@gmail.com", // to
   "Test Email from Notification Service", // subject
