@@ -2,6 +2,7 @@ import User from "../models/register.model.js";
 import config from "../configs/config.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { publishToQueue } from "../broker/rabbit.js";
 
 export const register = async (req, res) => {
   try {
@@ -28,6 +29,13 @@ export const register = async (req, res) => {
 
     const userResponse = user.toObject();
     delete userResponse.password;
+
+    await publishToQueue("User Created", {
+      id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
 
     res.status(201).json({
       message: "User created successfully",
