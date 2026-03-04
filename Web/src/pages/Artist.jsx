@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   authApi,
   useProfileQuery,
   useLogoutMutation,
 } from "../services/authApi";
+import AddSongModal from "../components/AddSongModal";
 import AvatarMenu from "../components/AvatarMenu";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ const Artist = () => {
   const { data: user } = useProfileQuery();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -22,6 +24,11 @@ const Artist = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleSongSubmit = (songData) => {
+    console.log("Submitting song", songData);
+    setShowModal(false);
   };
   useEffect(() => {
     if (user && user.user.role !== "artist") {
@@ -36,6 +43,7 @@ const Artist = () => {
           <button
             type="button"
             className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+            onClick={() => setShowModal(true)}
           >
             Add Song
           </button>
@@ -48,6 +56,11 @@ const Artist = () => {
           </button>
           {user && <AvatarMenu user={user.user} onLogout={handleLogout} />}
         </Navbar>
+        <AddSongModal
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          onSubmit={handleSongSubmit}
+        />
 
         <section className="px-6 md:px-10 py-6">
           <div className="max-w-6xl">
