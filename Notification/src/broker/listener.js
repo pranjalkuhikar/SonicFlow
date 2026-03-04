@@ -31,7 +31,7 @@ function startListening() {
                 <h2>Hello ${firstName} ${lastName},</h2>
                 <p>We're thrilled to have you join us. Your account has been created successfully and you're all set to explore everything SonicFlow has to offer.</p>
                 <p>Click the button below to get started and personalize your experience:</p>
-                <a href="https://sonicflow.com/dashboard" class="cta">Get Started</a>
+                <p class="cta">Get Started</p>
                 <p>If you have any questions, feel free to reach out to our support team at <a href="mailto:support@sonicflow.com">support@sonicflow.com</a>.</p>
                 <p>Thanks for joining, and welcome aboard!</p>
             </div>
