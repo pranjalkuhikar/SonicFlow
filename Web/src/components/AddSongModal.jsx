@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const AddSongModal = ({ open, onClose, onSubmit }) => {
   const [title, setTitle] = useState("");
-  const [songName, setSongName] = useState("");
+  const [artistName, setArtistName] = useState("");
   const [coverImage, setCoverImage] = useState(null);
   const [songFile, setSongFile] = useState(null);
 
@@ -16,9 +16,9 @@ const AddSongModal = ({ open, onClose, onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit({ title, songName, coverImage, songFile });
+    onSubmit({ title, artistName, coverImage, songFile });
     setTitle("");
-    setSongName("");
+    setArtistName("");
     setCoverImage(null);
     setSongFile(null);
   };
@@ -50,12 +50,12 @@ const AddSongModal = ({ open, onClose, onSubmit }) => {
           </div>
           <div>
             <label className="block text-sm text-white/80 mb-1">
-              Song Name
+              Artist Name
             </label>
             <input
               className="w-full rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
-              value={songName}
-              onChange={(event) => setSongName(event.target.value)}
+              value={artistName}
+              onChange={(event) => setArtistName(event.target.value)}
               required
             />
           </div>
@@ -71,7 +71,9 @@ const AddSongModal = ({ open, onClose, onSubmit }) => {
             />
           </div>
           <div>
-            <label className="block text-sm text-white/80 mb-1">Song File</label>
+            <label className="block text-sm text-white/80 mb-1">
+              Song File
+            </label>
             <input
               type="file"
               accept="audio/*"
