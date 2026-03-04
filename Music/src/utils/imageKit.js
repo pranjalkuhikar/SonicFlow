@@ -7,11 +7,12 @@ const imageKit = new ImageKit({
   urlEndpoint: config.imageKitUrlEndpoint,
 });
 
-export const uploadToImageKit = async (file) => {
+export const uploadToImageKit = async (file, folderName) => {
   try {
     const result = await imageKit.upload({
       file: file.buffer,
       fileName: Date.now() + "-" + file.originalname,
+      folder: folderName,
     });
 
     return result;

@@ -12,8 +12,14 @@ export const addSong = async (req, res) => {
       return res.status(400).json({ message: "Files are required" });
     }
 
-    const coverImageUrl = await uploadToImageKit(req.files.coverImage[0]);
-    const audioFileUrl = await uploadToImageKit(req.files.audioFile[0]);
+    const coverImageUrl = await uploadToImageKit(
+      req.files.coverImage[0],
+      "songs/covers",
+    );
+    const audioFileUrl = await uploadToImageKit(
+      req.files.audioFile[0],
+      "songs/audios",
+    );
 
     const songData = await Song.create({
       title,
