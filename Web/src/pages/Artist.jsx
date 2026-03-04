@@ -1,9 +1,18 @@
-import { useProfileQuery } from "../services/authApi";
+import { useProfileQuery, useLogoutMutation } from "../services/authApi";
 import Logo from "../components/Logo";
 import AvatarMenu from "../components/AvatarMenu";
 
 const Artist = () => {
   const { data: user } = useProfileQuery();
+  const [logout] = useLogoutMutation();
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      window.location.href = "/";
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto">
@@ -16,7 +25,7 @@ const Artist = () => {
             >
               Add Song
             </button>
-            {user && <AvatarMenu user={user.user} />}
+            {user && <AvatarMenu user={user.user} onLogout={handleLogout} />}
           </div>
         </header>
 

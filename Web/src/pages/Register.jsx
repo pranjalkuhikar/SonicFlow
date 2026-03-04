@@ -5,6 +5,7 @@ import {
   useRegisterMutation,
   useGoogleLoginUrlMutation,
 } from "../services/authApi";
+import Logo from "../components/Logo";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -70,10 +71,7 @@ const Register = () => {
           <div className="absolute inset-0 opacity-30 mix-blend-overlay" />
           <div className="relative h-full flex flex-col justify-end gap-8">
             <div>
-              <div className="flex items-center gap-2 text-sm font-medium opacity-90">
-                <span className="inline-block size-2 rounded-full bg-white" />
-                <span>SonicFlow</span>
-              </div>
+              <Logo />
               <h1 className="mt-4 text-3xl lg:text-4xl font-semibold">
                 Get Started with SonicFlow
               </h1>
