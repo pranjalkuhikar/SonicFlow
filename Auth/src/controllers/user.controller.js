@@ -65,14 +65,6 @@ export const googleAuthCallback = async (req, res) => {
         },
       );
 
-      await publishToQueue("User Created", {
-        id: isUserAlreadyExists._id,
-        email: isUserAlreadyExists.email,
-        firstName: isUserAlreadyExists.firstName,
-        lastName: isUserAlreadyExists.lastName,
-        role: isUserAlreadyExists.role,
-      });
-
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: "lax",

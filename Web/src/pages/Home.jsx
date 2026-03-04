@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useProfileQuery, useLogoutMutation } from "../services/authApi";
 import Logo from "../components/Logo";
@@ -35,17 +35,10 @@ const Home = () => {
   const [avatarColor] = useState(
     () => colors[Math.floor(Math.random() * colors.length)],
   );
-
-  useEffect(() => {
-    if (user?.user?.role === "artist") {
-      navigate("/artist");
-    }
-  }, [user, navigate]);
-
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-      window.location.href = "/";
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +56,15 @@ const Home = () => {
           <header className="px-6 md:px-10 py-6 flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-3">
+              {user?.user?.role === "artist" && (
+                <button
+                  type="button"
+                  onClick={() => navigate("/artist")}
+                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                >
+                  Artist Dashboard
+                </button>
+              )}
               {user ? (
                 <AvatarMenu
                   user={user.user}
