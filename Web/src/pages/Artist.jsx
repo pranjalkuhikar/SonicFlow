@@ -1,12 +1,14 @@
+import { useProfileQuery } from "../services/authApi";
+import Logo from "../components/Logo";
+import AvatarMenu from "../components/AvatarMenu";
+
 const Artist = () => {
+  const { data: user } = useProfileQuery();
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto">
         <header className="px-6 md:px-10 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-block size-2 rounded-full bg-white" />
-            <span className="text-sm font-medium">SonicFlow</span>
-          </div>
+          <Logo />
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -14,6 +16,7 @@ const Artist = () => {
             >
               Add Song
             </button>
+            {user && <AvatarMenu user={user.user} />}
           </div>
         </header>
 
