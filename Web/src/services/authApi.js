@@ -7,6 +7,7 @@ export const authApi = createApi({
     baseUrl: "http://localhost:3001/api/auth/",
     credentials: "include",
   }),
+  tagTypes: ["Profile"],
   endpoints: (build) => ({
     register: build.mutation({
       query: (credentials) => ({
@@ -32,12 +33,14 @@ export const authApi = createApi({
         url: "profile",
         method: "GET",
       }),
+      providesTags: ["Profile"],
     }),
     logout: build.mutation({
       query: () => ({
         url: "logout",
         method: "POST",
       }),
+      invalidatesTags: ["Profile"],
     }),
   }),
 });

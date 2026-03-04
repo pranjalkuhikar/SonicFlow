@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useProfileQuery, useLogoutMutation } from "../services/authApi";
-import Logo from "../components/Logo";
 import AvatarMenu from "../components/AvatarMenu";
+import Navbar from "../components/Navbar";
 
 const gradients = [
   "linear-gradient(135deg, #F59E0B, #EF4444 60%, #111111)",
@@ -53,42 +53,39 @@ const Home = () => {
             background: "radial-gradient(ellipse 0% 100% at 50% 0%)",
           }}
         >
-          <header className="px-6 md:px-10 py-6 flex items-center justify-between">
-            <Logo />
-            <div className="flex items-center gap-3">
-              {user?.user?.role === "artist" && (
-                <button
-                  type="button"
-                  onClick={() => navigate("/artist")}
+          <Navbar>
+            {user?.user?.role === "artist" && (
+              <button
+                type="button"
+                onClick={() => navigate("/artist")}
+                className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+              >
+                Artist Dashboard
+              </button>
+            )}
+            {user ? (
+              <AvatarMenu
+                user={user.user}
+                color={avatarColor}
+                onLogout={handleLogout}
+              />
+            ) : (
+              <nav className="flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
                   className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
                 >
-                  Artist Dashboard
-                </button>
-              )}
-              {user ? (
-                <AvatarMenu
-                  user={user.user}
-                  color={avatarColor}
-                  onLogout={handleLogout}
-                />
-              ) : (
-                <nav className="flex items-center gap-3">
-                  <Link
-                    to="/login"
-                    className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-                  >
-                    Register
-                  </Link>
-                </nav>
-              )}
-            </div>
-          </header>
+                  Register
+                </Link>
+              </nav>
+            )}
+          </Navbar>
 
           <section className="px-6 md:px-10 pt-6 md:pt-12">
             <div className="max-w-4xl">
