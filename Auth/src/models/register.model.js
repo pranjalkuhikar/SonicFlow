@@ -25,6 +25,11 @@ const userSchema = mongoose.Schema(
         return !this.googleId;
       },
     },
+    role: {
+      type: String,
+      enum: ["user", "artist"],
+      default: "user",
+    },
   },
   {
     timestamps: true,

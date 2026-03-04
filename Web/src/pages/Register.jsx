@@ -11,6 +11,7 @@ const Register = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
@@ -25,11 +26,13 @@ const Register = () => {
         lastName,
         email,
         password,
+        role,
       }).unwrap();
       setFirstName("");
       setLastName("");
       setEmail("");
       setPassword("");
+      setRole("user");
       setErrors({});
       navigate("/login");
     } catch (err) {
@@ -207,6 +210,23 @@ const Register = () => {
                 </p>
                 {errors.password && (
                   <p className="mt-1 text-xs text-red-400">{errors.password}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm mb-2">Role</label>
+                <select
+                  name="role"
+                  required
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2 text-sm placeholder-neutral-500 focus:outline-none"
+                >
+                  <option value="user">User</option>
+                  <option value="artist">Artist</option>
+                </select>
+                {errors.role && (
+                  <p className="mt-1 text-xs text-red-400">{errors.role}</p>
                 )}
               </div>
 

@@ -6,8 +6,8 @@ import { publishToQueue } from "../broker/rabbit.js";
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
-    if (!firstName || !lastName || !email || !password) {
+    const { firstName, lastName, email, password, role } = req.body;
+    if (!firstName || !lastName || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -24,6 +24,7 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: hashPassword,
+      role,
     });
     await user.save();
 
@@ -35,6 +36,7 @@ export const register = async (req, res) => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role,
     });
 
     res.status(201).json({
@@ -68,6 +70,7 @@ export const googleAuthCallback = async (req, res) => {
         email: isUserAlreadyExists.email,
         firstName: isUserAlreadyExists.firstName,
         lastName: isUserAlreadyExists.lastName,
+        role: isUserAlreadyExists.role,
       });
 
       res.cookie("token", token, {
@@ -84,6 +87,7 @@ export const googleAuthCallback = async (req, res) => {
       email: user.emails[0].value,
       firstName: user.name.givenName,
       lastName: user.name.familyName,
+      role: "user",
     });
 
     const token = jwt.sign({ userId: newUser._id }, config.JWT_SECRET, {
