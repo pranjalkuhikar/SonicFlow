@@ -61,15 +61,17 @@ const Home = () => {
           }}
         >
           <Navbar>
-            {user?.user?.role === "artist" && (
-              <button
-                type="button"
-                onClick={() => navigate("/artist")}
-                className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-              >
-                Artist Dashboard
-              </button>
-            )}
+            <div className="justify-end gap-4 py-4 md:py-0 hidden md:flex">
+              {user?.user?.role === "artist" && (
+                <button
+                  type="button"
+                  onClick={() => navigate("/artist")}
+                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                >
+                  Artist Dashboard
+                </button>
+              )}
+            </div>
             {user ? (
               <AvatarMenu
                 user={user.user}
@@ -94,7 +96,19 @@ const Home = () => {
             )}
           </Navbar>
 
-          <section className="px-6 md:px-10 pt-6 md:pt-12">
+          <section className="px-6 md:px-10">
+            <div className="flex justify-end gap-4 py-4 md:py-0 md:hidden">
+              {user?.user?.role === "artist" && (
+                <button
+                  type="button"
+                  onClick={() => navigate("/artist")}
+                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                >
+                  Artist Dashboard
+                </button>
+              )}
+            </div>
+
             <div className="max-w-4xl">
               <h1 className="text-4xl md:text-5xl font-semibold">
                 Feel the Flow

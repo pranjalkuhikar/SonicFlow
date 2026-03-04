@@ -40,20 +40,22 @@ const Artist = () => {
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto">
         <Navbar>
-          <button
-            type="button"
-            className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-            onClick={() => setShowModal(true)}
-          >
-            Add Song
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/")}
-            className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-          >
-            Home
-          </button>
+          <div className="hidden md:flex gap-4">
+            <button
+              type="button"
+              className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+              onClick={() => setShowModal(true)}
+            >
+              Add Song
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+            >
+              Home
+            </button>
+          </div>
           {user && <AvatarMenu user={user.user} onLogout={handleLogout} />}
         </Navbar>
         <AddSongModal
@@ -62,9 +64,26 @@ const Artist = () => {
           onSubmit={handleSongSubmit}
         />
 
-        <section className="px-6 md:px-10 py-6">
-          <div className="max-w-6xl">
-            <div className="flex items-end justify-between">
+        <section className="px-6 md:px-10 py-2">
+          <div className="max-w-7xl">
+            <div className="flex justify-end gap-4 md:hidden">
+              <button
+                type="button"
+                className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                onClick={() => setShowModal(true)}
+              >
+                Add Song
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+              >
+                Home
+              </button>
+            </div>
+
+            <div className="flex items-between md:items-end flex-col md:flex-row justify-between py-4">
               <div>
                 <h1 className="text-3xl font-semibold">Artist Dashboard</h1>
                 <p className="mt-2 text-neutral-400">
@@ -73,7 +92,7 @@ const Artist = () => {
               </div>
               <button
                 type="button"
-                className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 mt-2 md:mt-0 text-sm hover:bg-white/20"
               >
                 Create Playlist
               </button>
