@@ -21,12 +21,14 @@ export const addSong = async (req, res) => {
       "songs/audios",
     );
 
-    const songData = await Song.create({
+    const songData = new Song({
       title,
       artist,
-      coverImageUrl,
-      audioFileUrl,
+      coverImage: coverImageUrl.url,
+      audioFile: audioFileUrl.url,
     });
+    await songData.save();
+
     res.status(201).json({ message: "Song added successfully", songData });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
