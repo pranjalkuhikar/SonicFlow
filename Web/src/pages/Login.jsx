@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   useLoginMutation,
   useGoogleLoginUrlMutation,
 } from "../services/authApi";
 import Logo from "../components/Logo";
+import { setAvatarColor } from "../features/ui/uiSlice";
+import { getAvatarColor } from "../utils/avatarColors";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +16,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [googleLoginUrl] = useGoogleLoginUrlMutation();
 
@@ -26,6 +30,7 @@ const Login = () => {
       setEmail("");
       setPassword("");
       setErrors({});
+      dispatch(setAvatarColor(getAvatarColor()));
       const role = resp?.userExits?.role;
       if (role === "artist") {
         navigate("/artist");

@@ -2,12 +2,16 @@ import Logo from "./Logo";
 import Search from "./Search";
 
 const Navbar = ({ children }) => (
-  <header className="px-6 md:px-10 py-6 w-full flex items-center justify-between">
-    <Logo />
-    <div className="hidden md:flex md:w-full">
-      <Search />
+  <header className="px-6 md:px-10 py-6 w-full">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-start justify-between w-full gap-6">
+        <Logo />
+        <div className="flex w-full justify-end">{children}</div>
+      </div>
+      <div className="mx-auto w-full max-w-3xl">
+        <Search />
+      </div>
     </div>
-    <div className="flex items-center gap-3">{children}</div>
   </header>
 );
 

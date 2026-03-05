@@ -21,7 +21,7 @@ const AvatarMenu = ({ user, color, onLogout }) => {
         </div>
       </button>
       <div
-        className={`absolute right-0 top-full mt-2 w-64 rounded-xl border border-white/10 bg-neutral-950/95 backdrop-blur shadow-2xl ${open ? "block" : "hidden"}`}
+        className={`absolute right-0 z-50 top-full mt-2 w-64 rounded-xl border border-white/10 bg-neutral-950/95 backdrop-blur shadow-2xl ${open ? "block" : "hidden"}`}
       >
         <div className="p-4">
           <div className="flex items-center gap-3">

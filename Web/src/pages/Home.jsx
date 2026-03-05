@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Pause, Play } from "lucide-react";
-import Search from "../components/Search";
 import {
   authApi,
   useProfileQuery,
   useLogoutMutation,
 } from "../services/authApi";
 import { useGetSongsQuery } from "../services/songApi";
-import AvatarMenu from "../components/AvatarMenu";
+import HeaderActions from "../components/HeaderActions";
 import Navbar from "../components/Navbar";
+import { resetAvatarColor } from "../features/ui/uiSlice";
 
 const gradients = [
   "linear-gradient(135deg, #F59E0B, #EF4444 60%, #111111)",
@@ -26,25 +26,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
-  const colors = [
-    "bg-pink-500",
-    "bg-purple-600",
-    "bg-indigo-500",
-    "bg-blue-500",
-    "bg-sky-500",
-    "bg-cyan-500",
-    "bg-teal-500",
-    "bg-emerald-500",
-    "bg-lime-500",
-    "bg-amber-500",
-    "bg-orange-500",
-    "bg-red-500",
-    "bg-fuchsia-500",
-  ];
-
-  const [avatarColor] = useState(
-    () => colors[Math.floor(Math.random() * colors.length)],
-  );
 
   const {
     data: songsData,
@@ -61,6 +42,7 @@ const Home = () => {
     try {
       await logout().unwrap();
       dispatch(authApi.util.resetApiState());
+      dispatch(resetAvatarColor());
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -142,55 +124,10 @@ const Home = () => {
           }}
         >
           <Navbar>
-            <div className="justify-end gap-4 py-4 md:py-0 hidden md:flex">
-              {user?.user?.role === "artist" && (
-                <button
-                  type="button"
-                  onClick={() => navigate("/artist")}
-                  className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-                >
-                  Artist Dashboard
-                </button>
-              )}
-            </div>
-            {user ? (
-              <AvatarMenu
-                user={user.user}
-                color={avatarColor}
-                onLogout={handleLogout}
-              />
-            ) : (
-              <nav className="flex items-center gap-3">
-                <Link
-                  to="/login"
-                  className="rounded-lg border active:scale-95 border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-                >
-                  Register
-                </Link>
-              </nav>
-            )}
+            <HeaderActions user={user} onLogout={handleLogout} />
           </Navbar>
 
           <section className="px-2 md:px-6">
-            <div className="flex justify-between items-center gap-4 pb-4 md:py-0 md:hidden">
-              <Search />
-              {user?.user?.role === "artist" && (
-                <button
-                  type="button"
-                  onClick={() => navigate("/artist")}
-                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-                >
-                  Artist Dashboard
-                </button>
-              )}
-            </div>
-
             <div className="max-w-7xl mx-auto">
               <h1 className="text-4xl md:text-5xl font-semibold">
                 Feel the Flow
@@ -266,7 +203,16 @@ const Home = () => {
                   (songsData?.songs ?? []).slice(0, 6).map((song) => (
                     <div
                       key={song._id}
-                      className="rounded-2xl border border-white/10 bg-neutral-950 p-4 shadow-lg transition hover:border-white/30"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => navigate(`/song/${song._id}`)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          navigate(`/song/${song._id}`);
+                        }
+                      }}
+                      className="rounded-2xl border border-white/10 bg-neutral-950 p-4 shadow-lg transition hover:border-white/30 cursor-pointer"
                     >
                       <div className="relative overflow-hidden rounded-xl border border-white/5 bg-white/5">
                         <img
@@ -288,7 +234,10 @@ const Home = () => {
                           <div className="absolute -bottom-5 right-3">
                             <button
                               type="button"
-                              onClick={() => handlePlayPause(song)}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handlePlayPause(song);
+                              }}
                               className="rounded-full border border-white/30 bg-black/80 p-2 text-white"
                             >
                               {playingSong?._id === song._id && isPlaying ? (

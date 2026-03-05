@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useSearchSongsQuery } from "../services/songApi";
 
 const Search = () => {
@@ -13,7 +14,7 @@ const Search = () => {
   const searchResults = data?.songs ?? [];
 
   return (
-    <div className="relative w-full max-w-xs">
+    <div className="relative w-full">
       <input
         type="text"
         placeholder="Search songs, artists, or albums"
@@ -41,8 +42,9 @@ const Search = () => {
           {!isFetching && !isError && searchResults.length > 0 && (
             <div className="flex flex-col gap-2 max-h-64 overflow-y-auto">
               {searchResults.slice(0, 6).map((song) => (
-                <div
+                <Link
                   key={song._id}
+                  to={`/song/${song._id}`}
                   className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/5 p-2 transition hover:border-white/40"
                 >
                   <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/10">
@@ -52,7 +54,7 @@ const Search = () => {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <div className="flex-1 text-[13px] overflow-hidden">
+                  <div className="flex-1 text-[13px]">
                     <div className="font-semibold text-white truncate">
                       {song.title}
                     </div>
@@ -60,7 +62,7 @@ const Search = () => {
                       {song.artist}
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

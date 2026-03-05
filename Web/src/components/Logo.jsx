@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 const Logo = () => {
   const bars = [3, 6, 10, 14, 10, 7, 12, 9, 5, 8, 13, 7, 4, 9, 11];
 
   return (
-    <div className="flex items-center gap-3">
+    <Link to={"/"} className="flex items-center gap-3">
       {/* Icon */}
       <div className="relative size-9 rounded-xl overflow-hidden bg-[#0a0a0a] border border-white/[0.07] shadow-[0_0_20px_rgba(139,92,246,0.35)]">
         {/* Glow blob */}
@@ -51,7 +53,7 @@ const Logo = () => {
           music
         </span>
       </div>
-    </div>
+    </Link>
   );
 };
 
