@@ -266,25 +266,12 @@ const Home = () => {
                       key={song._id}
                       className="rounded-2xl border border-white/10 bg-neutral-950 p-4 shadow-lg transition hover:border-white/30"
                     >
-                      <div className="relative overflow-hidden rounded-xl border border-white/5 bg-white/5 pb-16">
+                      <div className="relative overflow-hidden rounded-xl border border-white/5 bg-white/5">
                         <img
                           src={song.coverImage.url}
                           alt={song.title}
-                          className="h-48 w-full object-cover"
+                          className="h-72 w-full object-cover"
                         />
-                        <div className="absolute bottom-3 right-3">
-                          <button
-                            type="button"
-                            onClick={() => handlePlayPause(song)}
-                            className="rounded-full border border-white/30 bg-black/80 p-2 text-white"
-                          >
-                            {playingSong?._id === song._id && isPlaying ? (
-                              <Pause className="w-4 h-4" />
-                            ) : (
-                              <Play className="w-4 h-4" />
-                            )}
-                          </button>
-                        </div>
                       </div>
                       <div className="mt-4 flex items-center justify-between">
                         <div>
@@ -295,8 +282,20 @@ const Home = () => {
                             {song.artist}
                           </div>
                         </div>
-                        <span className="text-xs uppercase tracking-wider text-white/40">
-                          {song.audioFile?.fileId ? "Sample" : "Live"}
+                        <span className="relative text-xs uppercase tracking-wider text-white/40">
+                          <div className="absolute -bottom-5 right-3">
+                            <button
+                              type="button"
+                              onClick={() => handlePlayPause(song)}
+                              className="rounded-full border border-white/30 bg-black/80 p-2 text-white"
+                            >
+                              {playingSong?._id === song._id && isPlaying ? (
+                                <Pause className="w-4 h-4" />
+                              ) : (
+                                <Play className="w-4 h-4" />
+                              )}
+                            </button>
+                          </div>
                         </span>
                       </div>
                     </div>
