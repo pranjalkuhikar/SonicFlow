@@ -5,7 +5,11 @@ import {
   useProfileQuery,
   useLogoutMutation,
 } from "../services/authApi";
-import { useAddSongMutation } from "../services/songApi";
+import {
+  useAddSongMutation,
+  useGetSongsQuery,
+  useDeleteSongMutation,
+} from "../services/songApi";
 import AddSongModal from "../components/AddSongModal";
 import AvatarMenu from "../components/AvatarMenu";
 import Navbar from "../components/Navbar";
@@ -15,9 +19,14 @@ const Artist = () => {
   const { data: user } = useProfileQuery();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
+
   const [addSong] = useAddSongMutation();
+  const { data } = useGetSongsQuery();
+  const [deleteSong] = useDeleteSongMutation();
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       await logout().unwrap();
@@ -46,7 +55,15 @@ const Artist = () => {
       console.error("Failed to add song", err);
     }
   };
-  
+
+  const handleDeleteSong = async (songId) => {
+    try {
+      await deleteSong(songId).unwrap();
+    } catch (err) {
+      console.error("Failed to delete song", err);
+    }
+  };
+
   useEffect(() => {
     if (user && user.user.role !== "artist") {
       navigate("/");
@@ -57,14 +74,7 @@ const Artist = () => {
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto">
         <Navbar>
-          <div className="hidden md:flex gap-4">
-            <button
-              type="button"
-              className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-              onClick={() => setShowModal(true)}
-            >
-              Add Song
-            </button>
+          <div className="flex gap-4">
             <button
               type="button"
               onClick={() => navigate("/")}
@@ -83,23 +93,6 @@ const Artist = () => {
 
         <section className="px-6 md:px-10 py-2">
           <div className="max-w-7xl">
-            <div className="flex justify-end gap-4 md:hidden">
-              <button
-                type="button"
-                className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-                onClick={() => setShowModal(true)}
-              >
-                Add Song
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate("/")}
-                className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-              >
-                Home
-              </button>
-            </div>
-
             <div className="flex items-between md:items-end flex-col md:flex-row justify-between py-4">
               <div>
                 <h1 className="text-3xl font-semibold">Artist Dashboard</h1>
@@ -109,25 +102,34 @@ const Artist = () => {
               </div>
               <button
                 type="button"
+                onClick={() => setShowModal(true)}
                 className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 mt-2 md:mt-0 text-sm hover:bg-white/20"
               >
-                Create Playlist
+                Add Song
               </button>
             </div>
 
             <div className="mt-10">
               <h2 className="text-xl font-semibold">Your Songs</h2>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {[...Array(6)].map((_, idx) => (
+                {(data?.songs ?? []).map((song) => (
                   <div
-                    key={idx}
+                    key={song._id}
                     className="rounded-2xl border border-white/10 bg-neutral-950 p-4"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-16 rounded-lg border border-white/10 bg-white/10" />
+                      <div className="size-16 rounded-lg border border-white/10 bg-white/10">
+                        <img
+                          src={song.coverImage.url}
+                          alt={song.title}
+                          className="size-full object-cover rounded-lg"
+                        />
+                      </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium">Song Title</div>
-                        <div className="text-xs text-white/60">Album Name</div>
+                        <div className="text-sm font-medium">{song.title}</div>
+                        <div className="text-xs text-white/60">
+                          {song.artist}
+                        </div>
                       </div>
                     </div>
                     <div className="mt-4 flex items-center justify-between">
@@ -135,12 +137,7 @@ const Artist = () => {
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs hover:bg-white/20"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
+                          onClick={() => handleDeleteSong(song._id)}
                           className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs hover:bg-white/20"
                         >
                           Delete

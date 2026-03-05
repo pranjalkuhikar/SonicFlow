@@ -6,6 +6,7 @@ export const songApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3002/api/song/",
   }),
+  tagTypes: ["Songs"],
   endpoints: (build) => ({
     addSong: build.mutation({
       query: (formData) => ({
@@ -13,18 +14,21 @@ export const songApi = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Songs"],
     }),
     getSongs: build.query({
       query: () => ({
         url: "getSongs",
         method: "GET",
       }),
+      providesTags: ["Songs"],
     }),
     deleteSong: build.mutation({
       query: (id) => ({
         url: `deleteSong/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Songs"],
     }),
   }),
 });
