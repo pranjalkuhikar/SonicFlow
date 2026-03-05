@@ -72,3 +72,23 @@ export const deleteSong = async (req, res) => {
       .json({ message: "Internal server error", error: error.message });
   }
 };
+
+export const searchSong = async (req, res) => {
+  const { query } = req.query;
+  if (!query?.trim()) {
+    return res.status(400).json({ message: "Query is required" });
+  }
+  try {
+    const songs = await Song.find({
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { artist: { $regex: query, $options: "i" } },
+      ],
+    });
+    res.status(200).json({ songs });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};

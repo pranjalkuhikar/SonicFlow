@@ -3,6 +3,7 @@ import {
   addSong,
   getSong,
   deleteSong,
+  searchSong,
 } from "../controllers/song.controller.js";
 import upload from "../utils/multer.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
@@ -20,5 +21,6 @@ router.post(
 );
 router.get("/getSongs", getSong);
 router.delete("/deleteSong/:id", authenticate, deleteSong);
+router.get("/search", searchSong);
 
 export default router;
