@@ -7,7 +7,7 @@ import {
   useLogoutMutation,
   useProfileQuery,
 } from "../services/authApi";
-import { useGetSongsQuery } from "../services/songApi";
+import { useGetSongByIdQuery } from "../services/songApi";
 import HeaderActions from "../components/HeaderActions";
 import Navbar from "../components/Navbar";
 import { resetAvatarColor } from "../features/ui/uiSlice";
@@ -24,8 +24,12 @@ const Song = () => {
   const audioRef = useRef(null);
 
   const { id } = useParams();
-  const { data: songsData, isFetching, isError } = useGetSongsQuery();
-  const song = songsData?.songs?.find((track) => track._id === id);
+  const {
+    data: songData,
+    isFetching,
+    isError,
+  } = useGetSongByIdQuery(id, { skip: !id });
+  const song = songData?.song;
 
   const handleLogout = async () => {
     try {
@@ -117,8 +121,8 @@ const Song = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20 bg-black text-white border-2 border-white/10">
-      <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-6">
+    <div className="min-h-screen pb-20 bg-black text-white ">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Navbar>
           <HeaderActions user={user} onLogout={handleLogout} />
         </Navbar>
