@@ -35,7 +35,7 @@ const HeaderActions = ({
   return (
     <div className="flex w-full flex-col items-end gap-3 md:items-between">
       <div className="flex items-center gap-3">
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center">
           {showArtistButton && user?.user?.role === "artist" && (
             <button
               type="button"

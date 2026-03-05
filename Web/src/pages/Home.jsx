@@ -116,7 +116,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen pb-40 bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="min-h-screen">
           <Navbar>
             <HeaderActions
@@ -127,7 +127,7 @@ const Home = () => {
             />
           </Navbar>
 
-          <section className="px-0">
+          <section className="mx-auto w-full max-w-6xl px-0 py-10">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-4xl md:text-5xl font-semibold">
                 Feel the Flow
@@ -172,7 +172,7 @@ const Home = () => {
             </div>
           </section>
 
-          <section className="px-0 mt-14">
+          <section className="mx-auto w-full max-w-6xl px-0 py-10">
             <div className="mx-auto w-full max-w-7xl">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>

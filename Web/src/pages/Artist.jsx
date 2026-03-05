@@ -17,7 +17,7 @@ import HeaderActions from "../components/HeaderActions";
 import { useNavigate } from "react-router-dom";
 
 const Artist = () => {
-  const { data: user } = useProfileQuery();
+  const { data: user, isFetching, isError } = useProfileQuery();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
 
@@ -112,13 +112,28 @@ const Artist = () => {
   };
 
   useEffect(() => {
-    if (user && user.user.role !== "artist") {
+    if (isFetching) return;
+    if (!user || user.user.role !== "artist") {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user, isFetching, navigate]);
+
+  if (isFetching) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <span className="text-xs uppercase tracking-[0.3em]">
+          Checking access…
+        </span>
+      </div>
+    );
+  }
+
+  if (isError || !user || user.user.role !== "artist") {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Navbar>
           <HeaderActions

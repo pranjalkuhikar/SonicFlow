@@ -117,8 +117,8 @@ const Song = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20 bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pb-20 bg-black text-white border-2 border-white/10">
+      <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-6">
         <Navbar>
           <HeaderActions user={user} onLogout={handleLogout} />
         </Navbar>
@@ -178,7 +178,7 @@ const Song = () => {
                   <button
                     type="button"
                     onClick={() => handlePlayPause(song)}
-                    className="flex items-center gap-2 rounded-full border border-white/30 px-6 py-2 text-sm font-semibold hover:border-white/70"
+                    className="flex items-center w-40 gap-2 rounded-full border border-white/30 px-6 py-2 text-sm font-semibold hover:border-white/70"
                   >
                     {isPlaying && playingSong?._id === song._id ? (
                       <Pause className="w-4 h-4 text-white" />
