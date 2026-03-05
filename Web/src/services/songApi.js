@@ -24,6 +24,14 @@ export const songApi = createApi({
       }),
       providesTags: ["Songs"],
     }),
+    getSongById: build.query({
+      query: (id) => ({
+        url: "getSongById",
+        method: "GET",
+        params: { id },
+      }),
+      providesTags: ["Songs"],
+    }),
     deleteSong: build.mutation({
       query: (id) => ({
         url: `deleteSong/${id}`,
@@ -45,6 +53,7 @@ export const songApi = createApi({
 export const {
   useAddSongMutation,
   useGetSongsQuery,
+  useGetSongByIdQuery,
   useDeleteSongMutation,
   useSearchSongsQuery,
 } = songApi;

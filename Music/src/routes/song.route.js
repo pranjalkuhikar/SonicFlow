@@ -2,6 +2,7 @@ import express from "express";
 import {
   addSong,
   getSong,
+  getSongById,
   deleteSong,
   searchSong,
 } from "../controllers/song.controller.js";
@@ -20,6 +21,7 @@ router.post(
   addSong,
 );
 router.get("/getSongs", getSong);
+router.get("/getSongById", getSongById);
 router.delete("/deleteSong/:id", authenticate, deleteSong);
 router.get("/search", searchSong);
 

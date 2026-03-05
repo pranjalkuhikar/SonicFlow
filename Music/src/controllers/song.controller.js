@@ -55,6 +55,24 @@ export const getSong = async (req, res) => {
   }
 };
 
+export const getSongById = async (req, res) => {
+  try {
+    const { id } = req.query;
+    if (!id?.trim()) {
+      return res.status(400).json({ message: "ID is required" });
+    }
+    const song = await Song.findById(id);
+    if (!song) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+    res.status(200).json({ song });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
 export const deleteSong = async (req, res) => {
   try {
     const { id } = req.params;
