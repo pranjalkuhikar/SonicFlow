@@ -5,6 +5,7 @@ import {
   useProfileQuery,
   useLogoutMutation,
 } from "../services/authApi";
+import { useAddSongMutation } from "../services/songApi";
 import AddSongModal from "../components/AddSongModal";
 import AvatarMenu from "../components/AvatarMenu";
 import Navbar from "../components/Navbar";
@@ -14,6 +15,7 @@ const Artist = () => {
   const { data: user } = useProfileQuery();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
+  const [addSong] = useAddSongMutation();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -26,10 +28,25 @@ const Artist = () => {
     }
   };
 
-  const handleSongSubmit = (songData) => {
-    console.log("Submitting song", songData);
-    setShowModal(false);
+  const handleSongSubmit = async (songData) => {
+    const formData = new FormData();
+    formData.append("title", songData.title);
+    formData.append("artist", songData.artistName);
+    if (songData.coverImage) {
+      formData.append("coverImage", songData.coverImage);
+    }
+    if (songData.songFile) {
+      formData.append("audioFile", songData.songFile);
+    }
+
+    try {
+      await addSong(formData).unwrap();
+      setShowModal(false);
+    } catch (err) {
+      console.error("Failed to add song", err);
+    }
   };
+  
   useEffect(() => {
     if (user && user.user.role !== "artist") {
       navigate("/");

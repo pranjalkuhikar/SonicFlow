@@ -8,9 +8,10 @@ export const songApi = createApi({
   }),
   endpoints: (build) => ({
     addSong: build.mutation({
-      query: () => ({
+      query: (formData) => ({
         url: "addSong",
         method: "POST",
+        body: formData,
       }),
     }),
     getSongs: build.query({

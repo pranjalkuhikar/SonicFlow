@@ -4,7 +4,7 @@ import { uploadToImageKit, deleteFromImageKit } from "../utils/imageKit.js";
 export const addSong = async (req, res) => {
   try {
     const { title, artist } = req.body;
-    if (!title || !artist) {
+    if (!title?.trim() || !artist?.trim()) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -12,19 +12,15 @@ export const addSong = async (req, res) => {
       return res.status(400).json({ message: "Files are required" });
     }
 
-    const existingSong = await Song.findOne({ title });
+    const existingSong = await Song.findOne({ title, artist });
     if (existingSong) {
       return res.status(400).json({ message: "Song already exists" });
     }
 
-    const coverImageUrl = await uploadToImageKit(
-      req.files.coverImage[0],
-      "songs/covers",
-    );
-    const audioFileUrl = await uploadToImageKit(
-      req.files.audioFile[0],
-      "songs/audios",
-    );
+    const [coverImageUrl, audioFileUrl] = await Promise.all([
+      uploadToImageKit(req.files.coverImage[0], "songs/covers"),
+      uploadToImageKit(req.files.audioFile[0], "songs/audios"),
+    ]);
 
     const songData = new Song({
       title,
