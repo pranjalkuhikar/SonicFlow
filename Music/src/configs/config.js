@@ -9,6 +9,7 @@ const _config = {
   imageKitPublicKey: process.env.imageKitPublicKey,
   imageKitPrivateKey: process.env.imageKitPrivateKey,
   imageKitUrlEndpoint: process.env.imageKitUrlEndpoint,
+  JWT_SECRET: process.env.JWT_SECRET,
 };
 
 const config = Object.freeze(_config);

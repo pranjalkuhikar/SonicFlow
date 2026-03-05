@@ -5,6 +5,7 @@ export const songApi = createApi({
   reducerPath: "songApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3002/api/song/",
+    credentials: "include",
   }),
   tagTypes: ["Songs"],
   endpoints: (build) => ({
