@@ -12,8 +12,8 @@ import {
   useDeleteSongMutation,
 } from "../services/songApi";
 import AddSongModal from "../components/AddSongModal";
-import AvatarMenu from "../components/AvatarMenu";
 import Navbar from "../components/Navbar";
+import HeaderActions from "../components/HeaderActions";
 import { useNavigate } from "react-router-dom";
 
 const Artist = () => {
@@ -118,19 +118,15 @@ const Artist = () => {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-red-400 text-white">
       <div className="max-w-7xl mx-auto">
         <Navbar>
-          <div className="flex gap-10 w-20">
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
-            >
-              Home
-            </button>
-          </div>
-          {user && <AvatarMenu user={user.user} onLogout={handleLogout} />}
+          <HeaderActions
+            user={user}
+            onLogout={handleLogout}
+            showArtistButton={false}
+            showHomeButton
+          />
         </Navbar>
         <AddSongModal
           open={showModal}

@@ -5,7 +5,12 @@ import AvatarMenu from "./AvatarMenu";
 import { selectAvatarColor, setAvatarColor } from "../features/ui/uiSlice";
 import { getAvatarColor } from "../utils/avatarColors";
 
-const HeaderActions = ({ user, onLogout }) => {
+const HeaderActions = ({
+  user,
+  onLogout,
+  showArtistButton = true,
+  showHomeButton = false,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const avatarColor = useSelector(selectAvatarColor);
@@ -17,6 +22,10 @@ const HeaderActions = ({ user, onLogout }) => {
     }
   };
 
+  const handleHome = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     if (user && !avatarColor) {
       dispatch(setAvatarColor(getAvatarColor()));
@@ -26,14 +35,23 @@ const HeaderActions = ({ user, onLogout }) => {
   return (
     <div className="flex w-full flex-col items-end gap-3 md:items-between">
       <div className="flex items-center gap-3">
-        <div className="hidden md:block">
-          {user?.user?.role === "artist" && (
+        <div className="hidden md:flex items-center gap-3">
+          {showArtistButton && user?.user?.role === "artist" && (
             <button
               type="button"
               onClick={handleArtistDashboard}
               className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
             >
               Artist Dashboard
+            </button>
+          )}
+          {showHomeButton && (
+            <button
+              type="button"
+              onClick={handleHome}
+              className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+            >
+              Home
             </button>
           )}
         </div>
@@ -62,13 +80,22 @@ const HeaderActions = ({ user, onLogout }) => {
       </div>
 
       <div className="flex justify-end gap-4 pb-4 md:hidden w-full">
-        {user?.user?.role === "artist" && (
+        {showArtistButton && user?.user?.role === "artist" && (
           <button
             type="button"
             onClick={handleArtistDashboard}
             className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200 w-full"
           >
             Artist Dashboard
+          </button>
+        )}
+        {showHomeButton && (
+          <button
+            type="button"
+            onClick={handleHome}
+            className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200 w-full"
+          >
+            Home
           </button>
         )}
       </div>

@@ -115,8 +115,8 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen pb-40 bg-black text-white">
-      <div className="mx-auto max-w-7xl px-2">
+    <div className="min-h-screen pb-40 bg-yellow-300 text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div
           className="relative min-h-screen"
           style={{
@@ -124,10 +124,15 @@ const Home = () => {
           }}
         >
           <Navbar>
-            <HeaderActions user={user} onLogout={handleLogout} />
+            <HeaderActions
+              user={user}
+              onLogout={handleLogout}
+              showArtistButton
+              showHomeButton={false}
+            />
           </Navbar>
 
-          <section className="px-2 md:px-6">
+          <section className="px-0">
             <div className="max-w-7xl mx-auto">
               <h1 className="text-4xl md:text-5xl font-semibold">
                 Feel the Flow
@@ -172,7 +177,7 @@ const Home = () => {
             </div>
           </section>
 
-          <section className="px-4 md:px-6 mt-14">
+          <section className="px-0 mt-14">
             <div className="mx-auto w-full max-w-7xl">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
