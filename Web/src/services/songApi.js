@@ -31,8 +31,20 @@ export const songApi = createApi({
       }),
       invalidatesTags: ["Songs"],
     }),
+    searchSongs: build.query({
+      query: (searchTerm) => ({
+        url: "search",
+        method: "GET",
+        params: { query: searchTerm },
+      }),
+      providesTags: ["Songs"],
+    }),
   }),
 });
 
-export const { useAddSongMutation, useGetSongsQuery, useDeleteSongMutation } =
-  songApi;
+export const {
+  useAddSongMutation,
+  useGetSongsQuery,
+  useDeleteSongMutation,
+  useSearchSongsQuery,
+} = songApi;

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Pause, Play } from "lucide-react";
+import Search from "../components/Search";
 import {
   authApi,
   useProfileQuery,
@@ -176,8 +177,9 @@ const Home = () => {
             )}
           </Navbar>
 
-          <section className="px-4 md:px-6">
-            <div className="flex justify-end gap-4 py-4 md:py-0 md:hidden">
+          <section className="px-2 md:px-6">
+            <div className="flex justify-between items-center gap-4 pb-4 md:py-0 md:hidden">
+              <Search />
               {user?.user?.role === "artist" && (
                 <button
                   type="button"
@@ -189,7 +191,7 @@ const Home = () => {
               )}
             </div>
 
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-7xl mx-auto">
               <h1 className="text-4xl md:text-5xl font-semibold">
                 Feel the Flow
               </h1>
@@ -234,7 +236,7 @@ const Home = () => {
           </section>
 
           <section className="px-4 md:px-6 mt-14">
-            <div className="mx-auto w-full max-w-6xl">
+            <div className="mx-auto w-full max-w-7xl">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h2 className="text-2xl font-semibold">All Music</h2>
