@@ -115,14 +115,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen pb-40 bg-yellow-300 text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div
-          className="relative min-h-screen"
-          style={{
-            background: "radial-gradient(ellipse 0% 100% at 50% 0%)",
-          }}
-        >
+    <div className="min-h-screen pb-40 bg-black text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen">
           <Navbar>
             <HeaderActions
               user={user}

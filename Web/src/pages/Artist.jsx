@@ -118,8 +118,8 @@ const Artist = () => {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen bg-red-400 text-white">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Navbar>
           <HeaderActions
             user={user}

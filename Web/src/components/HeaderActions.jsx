@@ -79,7 +79,7 @@ const HeaderActions = ({
         )}
       </div>
 
-      <div className="flex justify-end gap-4 pb-4 md:hidden w-full">
+      <div className="flex justify-end gap-2 pb-4 md:hidden w-full">
         {showArtistButton && user?.user?.role === "artist" && (
           <button
             type="button"
