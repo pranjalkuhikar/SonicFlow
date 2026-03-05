@@ -84,14 +84,14 @@ const AddSongModal = ({ open, onClose, onSubmit }) => {
           <div className="flex justify-end gap-3">
             <button
               type="button"
-              className="rounded-lg border border-white/20 px-4 py-2 text-sm hover:bg-white/10"
+              className="rounded-lg border border-white/20 active:scale-95 px-4 py-2 text-sm hover:bg-white/10"
               onClick={onClose}
             >
               Close
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-neutral-200"
+              className="rounded-lg bg-white px-4 py-2 text-sm active:scale-95 font-semibold text-black hover:bg-neutral-200"
             >
               Save
             </button>

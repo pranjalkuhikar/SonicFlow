@@ -66,7 +66,7 @@ const Home = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/artist")}
-                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                  className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
                 >
                   Artist Dashboard
                 </button>
@@ -82,13 +82,13 @@ const Home = () => {
               <nav className="flex items-center gap-3">
                 <Link
                   to="/login"
-                  className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                  className="rounded-lg border active:scale-95 border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+                  className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
                 >
                   Register
                 </Link>

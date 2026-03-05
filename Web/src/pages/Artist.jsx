@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Pause, Play } from "lucide-react";
 import {
   authApi,
   useProfileQuery,
@@ -23,6 +24,10 @@ const Artist = () => {
   const [addSong] = useAddSongMutation();
   const { data } = useGetSongsQuery();
   const [deleteSong] = useDeleteSongMutation();
+
+  const [playingSongId, setPlayingSongId] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -51,6 +56,7 @@ const Artist = () => {
     try {
       await addSong(formData).unwrap();
       setShowModal(false);
+      navigate("/artist");
     } catch (err) {
       console.error("Failed to add song", err);
     }
@@ -62,6 +68,47 @@ const Artist = () => {
     } catch (err) {
       console.error("Failed to delete song", err);
     }
+  };
+
+  useEffect(() => {
+    const audio = new Audio();
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setPlayingSongId(null);
+    };
+    audio.addEventListener("ended", handleEnded);
+    audioRef.current = audio;
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
+  const handlePlayPause = (song) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (playingSongId === song._id && isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    if (playingSongId !== song._id) {
+      audio.src = song.audioFile.url;
+      audio.currentTime = 0;
+    }
+
+    audio
+      .play()
+      .then(() => {
+        setIsPlaying(true);
+        setPlayingSongId(song._id);
+      })
+      .catch((playError) => {
+        console.error("Failed to play audio", playError);
+      });
   };
 
   useEffect(() => {
@@ -78,7 +125,7 @@ const Artist = () => {
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
+              className="rounded-lg bg-white active:scale-95 text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200"
             >
               Home
             </button>
@@ -103,7 +150,7 @@ const Artist = () => {
               <button
                 type="button"
                 onClick={() => setShowModal(true)}
-                className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 mt-2 md:mt-0 text-sm hover:bg-white/20"
+                className="rounded-lg border active:scale-95 border-white/20 bg-white/10 px-4 py-2 mt-2 md:mt-0 text-sm hover:bg-white/20"
               >
                 Add Song
               </button>
@@ -117,20 +164,35 @@ const Artist = () => {
                     key={song._id}
                     className="rounded-2xl border border-white/10 bg-neutral-950 p-4"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="size-16 rounded-lg border border-white/10 bg-white/10">
-                        <img
-                          src={song.coverImage.url}
-                          alt={song.title}
-                          className="size-full object-cover rounded-lg"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-medium">{song.title}</div>
-                        <div className="text-xs text-white/60">
-                          {song.artist}
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="size-16 rounded-lg border border-white/10 bg-white/10">
+                          <img
+                            src={song.coverImage.url}
+                            alt={song.title}
+                            className="size-full object-cover rounded-lg"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium">
+                            {song.title}
+                          </div>
+                          <div className="text-xs text-white/60">
+                            {song.artist}
+                          </div>
                         </div>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => handlePlayPause(song)}
+                        className="rounded-full border border-white/20 bg-white/10 p-2 text-white hover:bg-white/20"
+                      >
+                        {playingSongId === song._id && isPlaying ? (
+                          <Pause className="text-lg" />
+                        ) : (
+                          <Play className="text-lg" />
+                        )}
+                      </button>
                     </div>
                     <div className="mt-4 flex items-center justify-between">
                       <div className="text-xs text-white/60">1,234 plays</div>
@@ -138,7 +200,7 @@ const Artist = () => {
                         <button
                           type="button"
                           onClick={() => handleDeleteSong(song._id)}
-                          className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs hover:bg-white/20"
+                          className="rounded-md border active:scale-95 border-white/20 bg-white/10 px-3 py-1 text-xs hover:bg-white/20"
                         >
                           Delete
                         </button>
