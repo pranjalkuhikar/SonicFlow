@@ -117,7 +117,7 @@ const Song = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20 bg-black text-white">
+    <div className="min-h-screen max-w-7xl mx-auto pb-20 bg-black text-white">
       <Navbar>
         <HeaderActions user={user} onLogout={handleLogout} />
       </Navbar>

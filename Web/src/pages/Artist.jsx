@@ -121,7 +121,7 @@ const Artist = () => {
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto">
         <Navbar>
-          <div className="flex gap-4">
+          <div className="flex gap-10 w-20">
             <button
               type="button"
               onClick={() => navigate("/")}

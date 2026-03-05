@@ -2,10 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AvatarMenu from "./AvatarMenu";
-import {
-  selectAvatarColor,
-  setAvatarColor,
-} from "../features/ui/uiSlice";
+import { selectAvatarColor, setAvatarColor } from "../features/ui/uiSlice";
 import { getAvatarColor } from "../utils/avatarColors";
 
 const HeaderActions = ({ user, onLogout }) => {
@@ -27,7 +24,7 @@ const HeaderActions = ({ user, onLogout }) => {
   }, [dispatch, user, avatarColor]);
 
   return (
-    <div className="flex w-full flex-col items-end gap-3 md:items-center">
+    <div className="flex w-full flex-col items-end gap-3 md:items-between">
       <div className="flex items-center gap-3">
         <div className="hidden md:block">
           {user?.user?.role === "artist" && (

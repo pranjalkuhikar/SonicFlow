@@ -116,7 +116,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen pb-40 bg-black text-white">
-      <div className="mx-auto w-full max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-2">
         <div
           className="relative min-h-screen"
           style={{
