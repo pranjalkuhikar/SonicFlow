@@ -78,27 +78,6 @@ const HeaderActions = ({
           </nav>
         )}
       </div>
-
-      <div className="flex justify-end gap-2 pb-4 md:hidden w-full">
-        {showArtistButton && user?.user?.role === "artist" && (
-          <button
-            type="button"
-            onClick={handleArtistDashboard}
-            className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200 w-full"
-          >
-            Artist Dashboard
-          </button>
-        )}
-        {showHomeButton && (
-          <button
-            type="button"
-            onClick={handleHome}
-            className="rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-neutral-200 w-full"
-          >
-            Home
-          </button>
-        )}
-      </div>
     </div>
   );
 };

@@ -43,10 +43,10 @@ const SidebarLayout = ({
 
   const renderNav = (className) => (
     <aside className={className}>
-      <div className="flex h-full flex-col gap-8">
-        <div className="space-y-8">
+      <div className="flex h-full flex-col items-center gap-8">
+        <div className="w-48 flex flex-col gap-4">
           <Logo />
-          <nav className="flex flex-col gap-2">
+          <nav className="mx-auto flex w-full mt-10 max-w-[320px] flex-col gap-3">
             {items.map((item) => {
               const Icon = item.icon;
               return (
@@ -54,28 +54,35 @@ const SidebarLayout = ({
                   key={item.to}
                   to={item.to}
                   onClick={() => setMobileOpen(false)}
-                  className={({ isActive }) =>
-                    `group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${
-                      isActive
-                        ? "bg-white text-black shadow-[0_10px_40px_rgba(255,255,255,0.08)]"
-                        : "bg-gradient-to-r from-white/[0.06] to-white/[0.02] text-white hover:from-white/15 hover:to-white/5"
-                    }`
-                  }
+                  className="block w-full"
                 >
-                  <span className="flex size-8 items-center justify-center rounded-lg bg-white/5 text-white/80 group-hover:bg-white/10">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="font-medium">{item.label}</span>
+                  {({ isActive }) => (
+                    <div
+                      className={`relative flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold transition min-h-[64px] ${
+                        isActive
+                          ? "bg-white text-black shadow-[0_10px_40px_rgba(255,255,255,0.08)]"
+                          : "bg-linear-to-r from-white/[0.08] to-white/[0.03] text-white hover:from-white/15 hover:to-white/7"
+                      }`}
+                    >
+                      <span
+                        className={`flex size-9 items-center justify-center rounded-xl border border-white/10 ${
+                          isActive ? "bg-black/5 text-black" : "bg-white/10 text-white"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="font-semibold">{item.label}</span>
+                    </div>
+                  )}
                 </NavLink>
               );
             })}
           </nav>
         </div>
 
-        <div className="mt-auto space-y-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-inner shadow-black/40">
+        <div className="mt-auto w-full space-y-3">
           <HeaderActions
             user={user}
-            onLogout={onLogout}
             showArtistButton={false}
             showHomeButton={false}
           />
@@ -83,7 +90,7 @@ const SidebarLayout = ({
             <button
               type="button"
               onClick={onLogout}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 px-3 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
             >
               <LogOut className="h-4 w-4" />
               Logout
@@ -95,10 +102,10 @@ const SidebarLayout = ({
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <div className="flex">
         {renderNav(
-          "sticky top-0 hidden h-screen w-[280px] shrink-0 overflow-y-auto border-r border-white/5 bg-[#080808] px-6 py-8 md:flex",
+          "fixed left-0 top-0 hidden h-screen w-[280px] overflow-y-auto overflow-x-hidden border-r border-white/5 bg-[#080808] px-6 py-8 md:flex",
         )}
 
         <div className="flex min-h-screen flex-1 flex-col">
@@ -109,7 +116,11 @@ const SidebarLayout = ({
               onClick={() => setMobileOpen((prev) => !prev)}
               className="rounded-lg border border-white/10 bg-white/10 p-2"
             >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
             <Logo compact />
             <HeaderActions
@@ -137,7 +148,9 @@ const SidebarLayout = ({
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
                 {title && (
-                  <h1 className="text-3xl font-semibold leading-tight">{title}</h1>
+                  <h1 className="text-3xl font-semibold leading-tight">
+                    {title}
+                  </h1>
                 )}
                 {subtitle && (
                   <p className="mt-2 text-sm text-white/60">{subtitle}</p>
