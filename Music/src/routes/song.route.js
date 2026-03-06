@@ -42,12 +42,8 @@ router.get("/search", searchSong);
 
 // Artist
 router.post("/createArtistPlayList", authenticateArtist, createArtistPlayList);
-router.get("/getArtistPlayList", authenticateArtist, getArtistPlayList);
-router.get(
-  "/getArtistPlayListById/:id",
-  authenticateArtist,
-  getArtistPlayListById,
-);
+router.get("/getArtistPlayList", getArtistPlayList);
+router.get("/getArtistPlayListById/:id", getArtistPlayListById);
 router.delete(
   "/deleteArtistPlayList/:id",
   authenticateArtist,
