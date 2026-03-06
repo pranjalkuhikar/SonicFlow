@@ -58,10 +58,10 @@ const SidebarLayout = ({
                 >
                   {({ isActive }) => (
                     <div
-                      className={`relative flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold transition min-h-[64px] ${
+                      className={`relative flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold transition min-h-16 ${
                         isActive
                           ? "bg-white text-black shadow-[0_10px_40px_rgba(255,255,255,0.08)]"
-                          : "bg-gradient-to-r from-white/[0.08] to-white/[0.03] text-white hover:from-white/15 hover:to-white/7"
+                          : "bg-linear-to-r from-white/8 to-white/3 text-white hover:from-white/15 hover:to-white/7"
                       }`}
                     >
                       <span
@@ -109,7 +109,7 @@ const SidebarLayout = ({
         "fixed left-0 top-0 z-30 hidden h-screen w-[280px] overflow-y-auto overflow-x-hidden border-r border-white/5 bg-[#080808] px-6 py-8 md:flex",
       )}
 
-      <div className="flex min-h-screen flex-1 flex-col md:pl-[280px]">
+      <div className="flex min-h-screen flex-1 flex-col md:pl-70">
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-4 md:hidden">
           <div className="flex items-center gap-3">
             <button

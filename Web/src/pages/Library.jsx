@@ -1,7 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Library, ListMusic, LockKeyhole, Plus, ArrowRight } from "lucide-react";
+import {
+  Library,
+  ListMusic,
+  LockKeyhole,
+  Plus,
+  ArrowRight,
+} from "lucide-react";
 import {
   authApi,
   useLogoutMutation,
@@ -100,88 +106,90 @@ const LibraryPage = () => {
         </div>
       )}
       {canCreateArtistPlaylist && (
-      <section className="space-y-3">
-        <div className="flex items-center gap-2">
-          <Library className="h-4 w-4 text-white/60" />
-          <h2 className="text-lg font-semibold">Artist playlists (public)</h2>
-        </div>
-        {loadingArtist ? (
-          <div className="rounded-xl border border-white/10 bg-neutral-950/70 p-4 text-sm text-white/60">
-            Loading playlists…
+        <section className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Library className="h-4 w-4 text-white/60" />
+            <h2 className="text-lg font-semibold">Artist playlists (public)</h2>
           </div>
-        ) : (artistPlaylists?.playLists ?? []).length === 0 ? (
-          <div className="rounded-xl border border-white/10 bg-neutral-950/70 p-4 text-sm text-white/60">
-            No artist playlists published yet.
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {artistPlaylists.playLists.map((playlist) => {
-              const isOwner =
-                user?.user?.role === "artist" &&
-                playlist?.artist === user?.user?._id;
-              return (
-                <div
-                  key={playlist._id}
-                  className="space-y-3 rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-black/40 p-4"
-                >
-                  <div className="flex h-full flex-col gap-2">
-                    <div>
-                      <div className="text-sm font-semibold">
-                        {playlist.name}
+          {loadingArtist ? (
+            <div className="rounded-xl border border-white/10 bg-neutral-950/70 p-4 text-sm text-white/60">
+              Loading playlists…
+            </div>
+          ) : (artistPlaylists?.playLists ?? []).length === 0 ? (
+            <div className="rounded-xl border border-white/10 bg-neutral-950/70 p-4 text-sm text-white/60">
+              No artist playlists published yet.
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {artistPlaylists.playLists.map((playlist) => {
+                const isOwner =
+                  user?.user?.role === "artist" &&
+                  playlist?.artist === user?.user?._id;
+                return (
+                  <div
+                    key={playlist._id}
+                    className="space-y-3 rounded-2xl border border-white/10 bg-linear-to-br from-white/10 via-white/5 to-black/40 p-4"
+                  >
+                    <div className="flex h-full flex-col gap-2">
+                      <div>
+                        <div className="text-sm font-semibold">
+                          {playlist.name}
+                        </div>
+                        <div className="text-xs text-white/60">
+                          {playlist.songs?.length ?? 0} tracks
+                        </div>
+                        <div className="text-[11px] uppercase tracking-wider text-white/50">
+                          Public
+                        </div>
                       </div>
-                      <div className="text-xs text-white/60">
-                        {playlist.songs?.length ?? 0} tracks
-                      </div>
-                      <div className="text-[11px] uppercase tracking-wider text-white/50">
-                        Public
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-2 text-xs text-white/70">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          navigate(`/playlists/${playlist._id}?type=artist`)
-                        }
-                        className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-1 hover:bg-white/20"
-                      >
-                        View & manage
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </button>
-                      {isOwner && (
+                      <div className="flex flex-wrap gap-2 text-xs text-white/70">
                         <button
                           type="button"
-                          onClick={() => handleDeleteArtistPlaylist(playlist._id)}
-                          className="inline-flex items-center gap-2 rounded-md border border-rose-400/30 bg-rose-500/10 px-3 py-1 text-rose-100 hover:bg-rose-500/20"
+                          onClick={() =>
+                            navigate(`/playlists/${playlist._id}?type=artist`)
+                          }
+                          className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-1 hover:bg-white/20"
                         >
-                          Delete
+                          View & manage
+                          <ArrowRight className="h-3.5 w-3.5" />
                         </button>
-                      )}
+                        {isOwner && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDeleteArtistPlaylist(playlist._id)
+                            }
+                            className="inline-flex items-center gap-2 rounded-md border border-rose-400/30 bg-rose-500/10 px-3 py-1 text-rose-100 hover:bg-rose-500/20"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        <div className="flex gap-2 text-xs text-white/60">
-          <button
-            type="button"
-            onClick={() => refetchArtist()}
-            className="rounded-md border border-white/20 bg-white/10 px-3 py-1 hover:bg-white/20"
-          >
-            Refresh
-          </button>
-          {canCreateArtistPlaylist && (
+                );
+              })}
+            </div>
+          )}
+          <div className="flex gap-2 text-xs text-white/60">
             <button
               type="button"
-              onClick={() => navigate("/playlists/new?type=artist")}
+              onClick={() => refetchArtist()}
               className="rounded-md border border-white/20 bg-white/10 px-3 py-1 hover:bg-white/20"
             >
-              Publish new (artist)
+              Refresh
             </button>
-          )}
-        </div>
-      </section>
+            {canCreateArtistPlaylist && (
+              <button
+                type="button"
+                onClick={() => navigate("/playlists/new?type=artist")}
+                className="rounded-md border border-white/20 bg-white/10 px-3 py-1 hover:bg-white/20"
+              >
+                Publish new (artist)
+              </button>
+            )}
+          </div>
+        </section>
       )}
 
       <section className="mt-10 space-y-3">
