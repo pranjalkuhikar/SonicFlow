@@ -39,6 +39,12 @@ const CreatePlaylist = () => {
     setPlaylistType(defaultType);
   }, [defaultType]);
 
+  useEffect(() => {
+    if (user?.user?.role !== "artist" && playlistType === "artist") {
+      setPlaylistType("user");
+    }
+  }, [user, playlistType]);
+
   const handleLogout = async () => {
     try {
       await logout().unwrap();
@@ -76,7 +82,8 @@ const CreatePlaylist = () => {
     }
   };
 
-  const disableArtistOption = user?.user?.role !== "artist";
+  const isArtist = user?.user?.role === "artist";
+  const gridCols = isArtist ? "md:grid-cols-2" : "md:grid-cols-1";
 
   return (
     <SidebarLayout
@@ -94,7 +101,7 @@ const CreatePlaylist = () => {
             You need to log in before creating a playlist.
           </div>
         )}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className={`grid gap-4 ${gridCols}`}>
           <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
             <input
               type="radio"
@@ -115,34 +122,28 @@ const CreatePlaylist = () => {
             </div>
           </label>
 
-          <label
-            className={`flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4 ${disableArtistOption ? "opacity-50" : ""}`}
-          >
-            <input
-              type="radio"
-              className="mt-1"
-              name="playlistType"
-              value="artist"
-              checked={playlistType === "artist"}
-              onChange={() => setPlaylistType("artist")}
-              disabled={disableArtistOption}
-            />
-            <div>
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <ShieldCheck className="h-4 w-4" />
-                Artist playlist
-              </div>
-              <p className="mt-1 text-xs text-white/70">
-                Public playlists under your artist profile. Visible to all
-                listeners.
-              </p>
-              {disableArtistOption && (
-                <p className="mt-1 text-[11px] uppercase tracking-wide text-amber-300">
-                  Artist role required
+          {isArtist && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+              <input
+                type="radio"
+                className="mt-1"
+                name="playlistType"
+                value="artist"
+                checked={playlistType === "artist"}
+                onChange={() => setPlaylistType("artist")}
+              />
+              <div>
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <ShieldCheck className="h-4 w-4" />
+                  Artist playlist
+                </div>
+                <p className="mt-1 text-xs text-white/70">
+                  Public playlists under your artist profile. Visible to all
+                  listeners.
                 </p>
-              )}
-            </div>
-          </label>
+              </div>
+            </label>
+          )}
         </div>
 
         <div className="mt-6 space-y-2">

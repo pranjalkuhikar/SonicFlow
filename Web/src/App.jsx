@@ -6,6 +6,7 @@ import Artist from "./pages/Artist.jsx";
 import Song from "./pages/Song.jsx";
 import Library from "./pages/Library.jsx";
 import CreatePlaylist from "./pages/CreatePlaylist.jsx";
+import Playlist from "./pages/Playlist.jsx";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/song/:id" element={<Song />} />
         <Route path="/library" element={<Library />} />
         <Route path="/playlists/new" element={<CreatePlaylist />} />
+        <Route path="/playlists/:id" element={<Playlist />} />
       </Routes>
     </div>
   );

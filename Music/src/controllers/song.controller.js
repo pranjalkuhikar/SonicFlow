@@ -198,7 +198,7 @@ export const addSongToArtistPlayList = async (req, res) => {
     if (!playList.artist.equals(req.user.id)) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    if (!playList.songs.includes(songId)) {
+    if (!playList.songs.some((id) => id.toString() === songId.toString())) {
       playList.songs.push(songId);
     }
     await playList.save();
@@ -224,7 +224,9 @@ export const removeSongToArtistPlayList = async (req, res) => {
     if (!playList.artist.equals(req.user.id)) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    playList.songs = playList.songs.filter((id) => id !== songId);
+    playList.songs = playList.songs.filter(
+      (id) => id.toString() !== songId.toString(),
+    );
     await playList.save();
     res.status(200).json({ message: "Song removed to PlayList successfully" });
   } catch (error) {
@@ -318,7 +320,7 @@ export const addSongToUserPlayList = async (req, res) => {
     if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    if (!playList.songs.includes(songId)) {
+    if (!playList.songs.some((id) => id.toString() === songId.toString())) {
       playList.songs.push(songId);
     }
     await playList.save();
@@ -344,7 +346,9 @@ export const removeSongToUserPlayList = async (req, res) => {
     if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    playList.songs = playList.songs.filter((id) => id !== songId);
+    playList.songs = playList.songs.filter(
+      (id) => id.toString() !== songId.toString(),
+    );
     await playList.save();
     res.status(200).json({ message: "Song removed to PlayList successfully" });
   } catch (error) {

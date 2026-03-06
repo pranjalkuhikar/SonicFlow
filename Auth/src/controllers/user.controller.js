@@ -58,7 +58,10 @@ export const googleAuthCallback = async (req, res) => {
 
     if (isUserAlreadyExists) {
       const token = jwt.sign(
-        { userId: isUserAlreadyExists._id },
+        {
+          userId: isUserAlreadyExists._id,
+          role: isUserAlreadyExists.role,
+        },
         config.JWT_SECRET,
         {
           expiresIn: "1h",
@@ -82,9 +85,13 @@ export const googleAuthCallback = async (req, res) => {
       role: "user",
     });
 
-    const token = jwt.sign({ userId: newUser._id }, config.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: newUser._id, role: newUser.role },
+      config.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      },
+    );
 
     await publishToQueue("User Created", {
       id: newUser._id,
@@ -124,9 +131,13 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: userExits._id }, config.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: userExits._id, role: userExits.role },
+      config.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      },
+    );
 
     res.cookie("token", token, {
       httpOnly: true,
