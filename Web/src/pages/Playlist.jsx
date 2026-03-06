@@ -223,26 +223,26 @@ const PlaylistPage = () => {
           )}
 
           <div className="space-y-3">
-            <h2 className="text-lg font-semibold">Songs in this playlist</h2>
+            <h2 className="text-2xl font-bold">Songs in this playlist</h2>
             {playlistSongs.length === 0 ? (
               <div className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 text-sm text-white/60">
                 No songs yet.
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="space-y-3">
                 {playlistSongs.map((song) => (
                   <div
                     key={song._id}
-                    className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2"
+                    className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-neutral-950 px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.35)] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 sm:py-4"
                   >
-                    <div>
-                      <div className="text-sm font-semibold">{song.title}</div>
-                      <div className="text-xs text-white/60">{song.artist}</div>
+                    <div className="min-w-0">
+                      <div className="truncate text-xl font-semibold text-white">{song.title}</div>
+                      <div className="truncate text-base text-white/70">{song.artist}</div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 self-start sm:self-center">
                       <Link
                         to={`/song/${song._id}`}
-                        className="rounded-md border border-white/20 bg-white/10 px-3 py-1 text-[12px] hover:bg-white/20"
+                        className="rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
                       >
                         View
                       </Link>
@@ -250,7 +250,7 @@ const PlaylistPage = () => {
                         <button
                           type="button"
                           onClick={() => removeSong(song._id)}
-                          className="rounded-md border border-rose-400/30 bg-rose-500/10 px-3 py-1 text-[12px] text-rose-100 hover:bg-rose-500/20"
+                          className="rounded-xl border border-rose-400/40 bg-rose-500/10 px-4 py-2 text-sm font-semibold text-rose-100 transition hover:bg-rose-500/20"
                         >
                           Remove
                         </button>
