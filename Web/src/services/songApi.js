@@ -18,9 +18,10 @@ export const songApi = createApi({
       invalidatesTags: ["Songs"],
     }),
     getSongs: build.query({
-      query: () => ({
+      query: (artistId) => ({
         url: "getSongs",
         method: "GET",
+        params: artistId ? { artistId } : undefined,
       }),
       providesTags: ["Songs"],
     }),

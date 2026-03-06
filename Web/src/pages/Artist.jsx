@@ -24,7 +24,9 @@ const Artist = () => {
   const navigate = useNavigate();
 
   const [addSong] = useAddSongMutation();
-  const { data } = useGetSongsQuery();
+  const { data } = useGetSongsQuery(user?.user?._id, {
+    skip: !user?.user?._id,
+  });
   const [deleteSong] = useDeleteSongMutation();
   const { data: artistPlaylists, refetch: refetchArtistPlaylists } =
     useGetArtistPlayListQuery(user?.user?._id, {

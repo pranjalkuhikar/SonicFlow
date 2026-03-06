@@ -28,6 +28,7 @@ export const addSong = async (req, res) => {
     const songData = new Song({
       title,
       artist,
+      artistId: req.user.id,
       coverImage: {
         fileId: coverImageUrl.fileId,
         url: coverImageUrl.url,
@@ -49,7 +50,9 @@ export const addSong = async (req, res) => {
 
 export const getSong = async (req, res) => {
   try {
-    const songs = await Song.find();
+    const { artistId } = req.query;
+    const filter = artistId ? { artistId } : {};
+    const songs = await Song.find(filter);
     res.status(200).json({ songs });
   } catch (error) {
     res
