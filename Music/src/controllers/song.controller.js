@@ -139,7 +139,9 @@ export const createArtistPlayList = async (req, res) => {
 
 export const getArtistPlayList = async (req, res) => {
   try {
-    const playLists = await ArtistPlayList.find({ artist: req.user.id });
+    const { artistId } = req.query;
+    const filter = artistId ? { artist: artistId } : {};
+    const playLists = await ArtistPlayList.find(filter);
     res.status(200).json({ playLists });
   } catch (error) {
     res
@@ -154,9 +156,6 @@ export const getArtistPlayListById = async (req, res) => {
     const playList = await ArtistPlayList.findById(id);
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
-    }
-    if (!playList.artist.equals(req.user.id)) {
-      return res.status(403).json({ message: "Forbidden" });
     }
     res.status(200).json({ playList });
   } catch (error) {
@@ -275,7 +274,7 @@ export const getUserPlayListById = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (playList.user !== req.user.id) {
+    if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
     res.status(200).json({ playList });
@@ -293,7 +292,7 @@ export const deleteUserPlayList = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (playList.user !== req.user.id) {
+    if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
     await UserPlayList.findByIdAndDelete(id);
@@ -316,7 +315,7 @@ export const addSongToUserPlayList = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (playList.user !== req.user.id) {
+    if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
     if (!playList.songs.includes(songId)) {
@@ -342,7 +341,7 @@ export const removeSongToUserPlayList = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (playList.user !== req.user.id) {
+    if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
     playList.songs = playList.songs.filter((id) => id !== songId);

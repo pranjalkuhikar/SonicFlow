@@ -57,9 +57,10 @@ export const songApi = createApi({
       invalidatesTags: ["Songs"],
     }),
     getArtistPlayList: build.query({
-      query: () => ({
+      query: (artistId) => ({
         url: "getArtistPlayList",
         method: "GET",
+        params: artistId ? { artistId } : undefined,
       }),
       providesTags: ["Songs"],
     }),
@@ -81,7 +82,7 @@ export const songApi = createApi({
       query: ({ playListId, songId }) => ({
         url: `addSongToArtistPlayList/${playListId}`,
         method: "POST",
-        params: { songId },
+        body: { songId },
       }),
       invalidatesTags: ["Songs"],
     }),
@@ -89,7 +90,7 @@ export const songApi = createApi({
       query: ({ playListId, songId }) => ({
         url: `removeSongToArtistPlayList/${playListId}`,
         method: "POST",
-        params: { songId },
+        body: { songId },
       }),
       invalidatesTags: ["Songs"],
     }),
@@ -128,7 +129,7 @@ export const songApi = createApi({
       query: ({ playListId, songId }) => ({
         url: `addSongToUserPlayList/${playListId}`,
         method: "POST",
-        params: { songId },
+        body: { songId },
       }),
       invalidatesTags: ["Songs"],
     }),
@@ -136,7 +137,7 @@ export const songApi = createApi({
       query: ({ playListId, songId }) => ({
         url: `removeSongToUserPlayList/${playListId}`,
         method: "POST",
-        params: { songId },
+        body: { songId },
       }),
       invalidatesTags: ["Songs"],
     }),
