@@ -7,7 +7,10 @@ import {
   useLogoutMutation,
   useProfileQuery,
 } from "../services/authApi";
-import { useGetSongsQuery } from "../services/songApi";
+import {
+  useGetSongsQuery,
+  useGetArtistPlayListQuery,
+} from "../services/songApi";
 import SidebarLayout from "../components/SidebarLayout";
 import { resetAvatarColor } from "../features/ui/uiSlice";
 
@@ -18,6 +21,8 @@ const gradients = [
   "linear-gradient(135deg, #F472B6, #A855F7 60%, #111111)",
   "linear-gradient(135deg, #FB7185, #F43F5E 60%, #111111)",
   "linear-gradient(135deg, #FDE68A, #F59E0B 60%, #111111)",
+  "linear-gradient(135deg, #0ea5e9, #6366f1 60%, #0f172a)",
+  "linear-gradient(135deg, #10b981, #059669 60%, #0f172a)",
 ];
 
 const Home = () => {
@@ -31,6 +36,7 @@ const Home = () => {
     isFetching: isLoadingSongs,
     refetch: refetchSongs,
   } = useGetSongsQuery();
+  const { data: artistPlaylists } = useGetArtistPlayListQuery();
   const [playingSong, setPlayingSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -130,34 +136,86 @@ const Home = () => {
         </button>
       }
     >
-      <section className="grid grid-cols-2 gap-5 lg:grid-cols-3">
-        {gradients.map((bg, idx) => (
-          <div
-            key={idx}
-            className="group relative overflow-hidden rounded-2xl border border-white/10"
-            style={{ backgroundImage: bg }}
-          >
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="relative flex h-40 flex-col justify-end p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm font-medium">
-                    Featured Mix {idx + 1}
+      <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {(artistPlaylists?.playLists ?? []).length === 0
+          ? gradients.slice(0, 6).map((bg, idx) => (
+              <div
+                key={idx}
+                className="group relative overflow-hidden rounded-2xl border border-white/10"
+                style={{ backgroundImage: bg }}
+              >
+                <div className="absolute inset-0 bg-black/20" />
+                <div className="relative flex h-40 flex-col justify-end p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm font-medium">
+                        Featured Mix {idx + 1}
+                      </div>
+                      <div className="text-xs text-white/70">12 tracks</div>
+                    </div>
+                    <button
+                      type="button"
+                      className="flex size-9 items-center justify-center rounded-full bg-white text-black transition group-hover:scale-105"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
                   </div>
-                  <div className="text-xs text-white/70">12 tracks</div>
                 </div>
-                <button
-                  type="button"
-                  className="flex size-9 items-center justify-center rounded-full bg-white text-black transition group-hover:scale-105"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
               </div>
-            </div>
-          </div>
-        ))}
+            ))
+          : (artistPlaylists?.playLists ?? []).map((playlist, idx) => (
+              <div
+                key={playlist._id}
+                role="button"
+                tabIndex={0}
+                onClick={() =>
+                  navigate(`/playlists/${playlist._id}?type=artist`)
+                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigate(`/playlists/${playlist._id}?type=artist`);
+                  }
+                }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 cursor-pointer"
+                style={{ backgroundImage: gradients[idx % gradients.length] }}
+              >
+                <div className="absolute inset-0 bg-black/15" />
+                <div className="relative flex h-40 flex-col justify-between p-4">
+                  <div className="space-y-1">
+                    <div className="text-sm font-semibold">
+                      {playlist.name ?? "Playlist"}
+                    </div>
+                    <div className="text-[11px] uppercase tracking-wide text-white/70">
+                      {playlist.artistName || "Artist"}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs text-white/80">
+                      {playlist?.songs?.length ?? 0} tracks
+                    </div>
+                    <button
+                      type="button"
+                      className="flex size-9 items-center justify-center rounded-full bg-white text-black transition group-hover:scale-105"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
       </section>
 
       <section className="mt-10">
@@ -244,16 +302,26 @@ const Home = () => {
                   />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold">{playingSong.title}</div>
-                  <div className="text-xs text-white/60">{playingSong.artist}</div>
+                  <div className="text-sm font-semibold">
+                    {playingSong.title}
+                  </div>
+                  <div className="text-xs text-white/60">
+                    {playingSong.artist}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-1 items-center gap-2 text-xs text-white/60 md:flex-row md:items-center md:text-right">
-                <span className="text-[11px] md:order-1">{formatTime(currentTime)}</span>
+                <span className="text-[11px] md:order-1">
+                  {formatTime(currentTime)}
+                </span>
                 <div className="order-3 h-1 w-full overflow-hidden rounded-full bg-white/10 md:order-2 md:mx-3">
                   <div
                     className="h-full bg-linear-to-r from-white to-transparent"
-                    style={{ width: duration ? `${(currentTime / duration) * 100}%` : "0%" }}
+                    style={{
+                      width: duration
+                        ? `${(currentTime / duration) * 100}%`
+                        : "0%",
+                    }}
                   />
                 </div>
                 <span className="order-3 text-[10px] uppercase tracking-wider">
@@ -265,7 +333,11 @@ const Home = () => {
                 onClick={() => handlePlayPause(playingSong)}
                 className="rounded-full border border-white/20 bg-white/10 p-3 text-white hover:bg-white/20"
               >
-                {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+                {isPlaying ? (
+                  <Pause className="h-5 w-5" />
+                ) : (
+                  <Play className="h-5 w-5" />
+                )}
               </button>
             </div>
           </div>

@@ -118,13 +118,14 @@ export const searchSong = async (req, res) => {
 // Artist
 export const createArtistPlayList = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, artistName } = req.body;
     if (!name?.trim()) {
       return res.status(400).json({ message: "Name is required" });
     }
     const playList = new ArtistPlayList({
       name,
       artist: req.user.id,
+      artistName: artistName || undefined,
     });
     await playList.save();
     res
@@ -172,7 +173,7 @@ export const deleteArtistPlayList = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (!playList.artist.equals(req.user.id)) {
+    if (playList.artist.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
     await ArtistPlayList.findByIdAndDelete(id);
@@ -195,12 +196,13 @@ export const addSongToArtistPlayList = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (!playList.artist.equals(req.user.id)) {
+    if (playList.artist.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    if (!playList.songs.some((id) => id.toString() === songId.toString())) {
-      playList.songs.push(songId);
+    if (playList.songs.some((id) => id.toString() === songId.toString())) {
+      return res.status(409).json({ message: "Song already in playlist" });
     }
+    playList.songs.push(songId);
     await playList.save();
     res.status(200).json({ message: "Song added to PlayList successfully" });
   } catch (error) {
@@ -221,7 +223,7 @@ export const removeSongToArtistPlayList = async (req, res) => {
     if (!playList) {
       return res.status(404).json({ message: "PlayList not found" });
     }
-    if (!playList.artist.equals(req.user.id)) {
+    if (playList.artist.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
     playList.songs = playList.songs.filter(
@@ -320,9 +322,10 @@ export const addSongToUserPlayList = async (req, res) => {
     if (playList.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    if (!playList.songs.some((id) => id.toString() === songId.toString())) {
-      playList.songs.push(songId);
+    if (playList.songs.some((id) => id.toString() === songId.toString())) {
+      return res.status(409).json({ message: "Song already in playlist" });
     }
+    playList.songs.push(songId);
     await playList.save();
     res.status(200).json({ message: "Song added to PlayList successfully" });
   } catch (error) {

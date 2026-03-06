@@ -9,6 +9,9 @@ const playListSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  artistName: {
+    type: String,
+  },
   songs: [
     {
       type: mongoose.Schema.Types.ObjectId,

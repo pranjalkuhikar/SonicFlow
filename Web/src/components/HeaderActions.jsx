@@ -10,6 +10,7 @@ const HeaderActions = ({
   onLogout,
   showArtistButton = true,
   showHomeButton = false,
+  hideProfileOnMobile = false,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,7 +35,9 @@ const HeaderActions = ({
 
   return (
     <div className="flex w-full flex-col items-end gap-3 md:items-between">
-      <div className="flex items-center gap-3">
+      <div
+        className={`flex items-center gap-3 ${hideProfileOnMobile ? "hidden md:flex" : ""}`}
+      >
         <div className="hidden md:flex items-center">
           {showArtistButton && user?.user?.role === "artist" && (
             <button

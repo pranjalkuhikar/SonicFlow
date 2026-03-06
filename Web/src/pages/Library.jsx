@@ -99,6 +99,7 @@ const LibraryPage = () => {
           {actionMessage}
         </div>
       )}
+      {canCreateArtistPlaylist && (
       <section className="space-y-3">
         <div className="flex items-center gap-2">
           <Library className="h-4 w-4 text-white/60" />
@@ -181,6 +182,7 @@ const LibraryPage = () => {
           )}
         </div>
       </section>
+      )}
 
       <section className="mt-10 space-y-3">
         <div className="flex items-center gap-2">

@@ -79,7 +79,11 @@ const PlaylistPage = () => {
 
   const addSong = async (songId) => {
     if (!songId || !playlist?._id) return;
-    if (playlistSongs.some((s) => s._id === songId)) {
+    if (
+      playlist?.songs?.some(
+        (id) => id === songId || id?.toString?.() === songId?.toString?.(),
+      )
+    ) {
       setStatus("Already in playlist.");
       return;
     }
@@ -92,7 +96,11 @@ const PlaylistPage = () => {
       setStatus("Song added.");
       await refetchPlaylist();
     } catch (err) {
-      setStatus(err?.data?.message || "Unable to add song.");
+      const msg =
+        err?.data?.message === "Song already in playlist"
+          ? "Already in playlist."
+          : err?.data?.message || "Unable to add song.";
+      setStatus(msg);
     }
   };
 
@@ -125,8 +133,10 @@ const PlaylistPage = () => {
   };
 
   const isOwner =
-    (type === "artist" && user?.user?.role === "artist") ||
-    (type === "user" && !!user);
+    (type === "artist" &&
+      user?.user?.role === "artist" &&
+      playlist?.artist?.toString?.() === user?.user?._id) ||
+    (type === "user" && user?.user?._id && playlist);
 
   return (
     <SidebarLayout

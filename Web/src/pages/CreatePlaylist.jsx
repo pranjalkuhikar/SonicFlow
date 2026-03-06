@@ -20,6 +20,7 @@ const CreatePlaylist = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [logout] = useLogoutMutation();
+  const isArtist = user?.user?.role === "artist";
 
   const defaultType = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -36,14 +37,12 @@ const CreatePlaylist = () => {
     useCreateArtistPlayListMutation();
 
   useEffect(() => {
-    setPlaylistType(defaultType);
-  }, [defaultType]);
-
-  useEffect(() => {
-    if (user?.user?.role !== "artist" && playlistType === "artist") {
+    if (isArtist) {
+      setPlaylistType("artist");
+    } else {
       setPlaylistType("user");
     }
-  }, [user, playlistType]);
+  }, [isArtist]);
 
   const handleLogout = async () => {
     try {
@@ -69,7 +68,10 @@ const CreatePlaylist = () => {
     }
     try {
       if (playlistType === "artist" && user?.user?.role === "artist") {
-        await createArtistPlaylist({ name: trimmed }).unwrap();
+        await createArtistPlaylist({
+          name: trimmed,
+          artistName: `${user.user.firstName} ${user.user.lastName ?? ""}`.trim(),
+        }).unwrap();
         setStatus("Artist playlist created and visible to everyone.");
       } else {
         await createUserPlaylist({ name: trimmed }).unwrap();
@@ -82,8 +84,7 @@ const CreatePlaylist = () => {
     }
   };
 
-  const isArtist = user?.user?.role === "artist";
-  const gridCols = isArtist ? "md:grid-cols-2" : "md:grid-cols-1";
+  const gridCols = "md:grid-cols-1";
 
   return (
     <SidebarLayout
@@ -102,25 +103,27 @@ const CreatePlaylist = () => {
           </div>
         )}
         <div className={`grid gap-4 ${gridCols}`}>
-          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
-            <input
-              type="radio"
-              className="mt-1"
-              name="playlistType"
-              value="user"
-              checked={playlistType === "user"}
-              onChange={() => setPlaylistType("user")}
-            />
-            <div>
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <UserRound className="h-4 w-4" />
-                User playlist
+          {!isArtist && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+              <input
+                type="radio"
+                className="mt-1"
+                name="playlistType"
+                value="user"
+                checked={playlistType === "user"}
+                onChange={() => setPlaylistType("user")}
+              />
+              <div>
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <UserRound className="h-4 w-4" />
+                  User playlist
+                </div>
+                <p className="mt-1 text-xs text-white/70">
+                  Private playlists tied to your login. Only you can see them.
+                </p>
               </div>
-              <p className="mt-1 text-xs text-white/70">
-                Private playlists tied to your login. Only you can see them.
-              </p>
-            </div>
-          </label>
+            </label>
+          )}
 
           {isArtist && (
             <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
