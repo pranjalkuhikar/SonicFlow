@@ -7,13 +7,13 @@ import {
   searchSong,
 } from "../controllers/song.controller.js";
 import upload from "../utils/multer.js";
-import { authenticate } from "../middlewares/auth.middleware.js";
+import { authenticateArtist } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 router.post(
   "/addSong",
-  authenticate,
+  authenticateArtist,
   upload.fields([
     { name: "coverImage", maxCount: 1 },
     { name: "audioFile", maxCount: 1 },
@@ -22,7 +22,7 @@ router.post(
 );
 router.get("/getSongs", getSong);
 router.get("/getSongById", getSongById);
-router.delete("/deleteSong/:id", authenticate, deleteSong);
+router.delete("/deleteSong/:id", authenticateArtist, deleteSong);
 router.get("/search", searchSong);
 
 export default router;
