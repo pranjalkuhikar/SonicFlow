@@ -18,6 +18,26 @@ Frontend + microservices (Auth, Music) for a role-based streaming demo.
   - Artist dashboard: only the artist’s own songs (filtered by `artistId`).
   - Responsive sidebar; mobile header with menu + logo + logout.
 
+## Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Library
+![Library](screenshots/library.png)
+
+### Song Page & Player
+<p align="center">
+  <img src="screenshots/song_page.png" width="45%" />
+  <img src="screenshots/song_player.png" width="45%" />
+</p>
+
+### Authentication
+<p align="center">
+  <img src="screenshots/login.png" width="45%" />
+  <img src="screenshots/signup.png" width="45%" />
+</p>
+
 ## Running locally
 
 ```bash
