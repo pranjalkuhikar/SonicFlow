@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const songApi = createApi({
   reducerPath: "songApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3002/api/song/",
+    baseUrl: "http://localhost:3003/api/song/",
     credentials: "include",
   }),
   tagTypes: ["Songs"],
