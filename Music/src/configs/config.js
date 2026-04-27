@@ -6,9 +6,9 @@ const _config = {
   PORT: process.env.PORT,
   MONGO_URL: process.env.MONGO_URL,
   Frontend_URL: process.env.Frontend_URL,
-  imageKitPublicKey: process.env.imageKitPublicKey,
-  imageKitPrivateKey: process.env.imageKitPrivateKey,
-  imageKitUrlEndpoint: process.env.imageKitUrlEndpoint,
+  imageKitPublicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  imageKitPrivateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  imageKitUrlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
   JWT_SECRET: process.env.JWT_SECRET,
 };
 
