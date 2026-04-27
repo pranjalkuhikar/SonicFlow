@@ -1,0 +1,37 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="8" fill="#0A0A0A"/>
+  <defs>
+    <radialGradient id="glow" cx="65%" cy="35%" r="70%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#06B6D4" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="specialBarGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#glow)"/>
+  <rect width="31" height="31" x="0.5" y="0.5" rx="7.5" stroke="white" stroke-opacity="0.07" stroke-width="1"/>
+  
+  <!-- Waveform Bars -->
+  <rect x="1.5" y="13.4" width="1" height="5.2" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="3.5" y="10.9" width="1" height="10.2" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="5.5" y="7.4" width="1" height="17.2" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="7.5" y="4.0" width="1" height="24.0" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="9.5" y="7.4" width="1" height="17.2" rx="0.5" fill="url(#specialBarGrad)" fill-opacity="1"/>
+  <rect x="11.5" y="10.0" width="1" height="12.0" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="13.5" y="5.7" width="1" height="20.6" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="15.5" y="8.3" width="1" height="15.4" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="17.5" y="11.7" width="1" height="8.6" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="19.5" y="9.1" width="1" height="13.8" rx="0.5" fill="url(#specialBarGrad)" fill-opacity="1"/>
+  <rect x="21.5" y="4.9" width="1" height="22.2" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="23.5" y="10.0" width="1" height="12.0" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="25.5" y="12.6" width="1" height="6.8" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="27.5" y="8.3" width="1" height="15.4" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+  <rect x="29.5" y="6.6" width="1" height="18.8" rx="0.5" fill="url(#barGrad)" fill-opacity="0.8"/>
+</svg>
